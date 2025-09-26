@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartRunActionSQL</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class SIMSStartRunActionSQL extends SIMSStartRunAction
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    protected boolean update()
+    {
+        SIMSStartTable      startTable  = SIMSStartTable::find(this.parmActionRecId());
+        str                 sqlQuery    = startTable.SQL;
+        boolean             hasErrorsRet   = true;
+        int                 rowsAffected;
+        Connection          connection = new Connection();
+        Statement           statement = null;
+        System.Exception    ex;
+        
+        try
+        {
+            statement = connection.createStatement();
+
+            var ssep = new SqlStatementExecutePermission(sqlQuery);
+            ssep.assert();
+
+            rowsAffected = statement.executeUpdate(sqlQuery);
+            CodeAccessPermission::revertAssert();
+            this.parmResultMessage(strFmt("Affected to the %1 rows", rowsAffected));
+            hasErrorsRet = false;
+        }
+        catch(ex)
+        {
+            this.parmResultMessage(ex.Message);
+            throw ex;
+        }
+        finally
+        {
+            if (statement != null)
+            {
+                statement.close();
+            }
+            connection.finalize();
+        }
+        return hasErrorsRet;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

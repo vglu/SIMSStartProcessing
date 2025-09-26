@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartActionRunClassInterface</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+interface SIMSStartActionRunClassInterface
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>run</Name>
+				<Source><![CDATA[
+    public void run()
+    {
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>resultMessage</Name>
+				<Source><![CDATA[
+    public str resultMessage()
+    {
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

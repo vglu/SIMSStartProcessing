@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartRunActionClass</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class SIMSStartRunActionClass extends SIMSStartRunAction
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    protected boolean update()
+    {
+        
+        SIMSStartTable                      startTable  = SIMSStartTable::find(this.parmActionRecId());
+        SIMSStartActionRunClassInterface    runClass    = new ClassFactory().createClass(className2Id(startTable.AOTClassName));
+        boolean                             hasErrorsRet= true;
+
+        try
+        {
+            runClass.run();
+            this.parmResultMessage(runClass.resultMessage());
+            hasErrorsRet = false;
+        }
+        catch
+        {
+            this.parmResultMessage(strFmt("class %1 raise the issue", startTable.AOTClassName));
+        }
+        return hasErrorsRet;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

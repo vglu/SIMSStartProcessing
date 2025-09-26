@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartActionRunClassSelectCustTable_DEMO</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class SIMSStartActionRunClassSelectCustTable_DEMO implements SIMSStartActionRunClassInterface
+{
+    str message;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>run</Name>
+				<Source><![CDATA[
+    public void run()
+    {
+        CustTable   custTable;
+        select firstonly firstfast crosscompany custTable
+            ;
+        message = strFmt("Cust table Acount %1, name %2", custTable.accountNum, custTable.name());
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>resultMessage</Name>
+				<Source><![CDATA[
+    public str resultMessage()
+    {
+        return message;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartActionServerRunHandler</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class SIMSStartActionServerRunHandler
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>OnSystemStartup</Name>
+				<Source><![CDATA[
+    [Hookable(false), SubscribesTo(classStr(ApplicationStartupEventManager), staticDelegateStr(ApplicationStartupEventManager, onSystemStartup))]
+    internal static void OnSystemStartup()
+    {
+        SIMSStartActionServerRunThread  startActionServerRunThread = SIMSStartActionServerRunThread::construct();
+        BatchJob                        batchJob;
+
+        select firstfast firstonly batchJob
+            where batchJob.Caption  == SIMSStartActionServerRunThread::description()
+               && (batchJob.Status   == BatchStatus::Executing
+               || batchJob.Status   == BatchStatus::Waiting)
+            ;
+        if (!batchJob)
+        {
+            BatchHeader header = BatchHeader::construct();
+            header.addTask(startActionServerRunThread);
+            header.parmCaption(SIMSStartActionServerRunThread::description());
+            header.parmExecutingBy('Admin');
+            header.save();
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

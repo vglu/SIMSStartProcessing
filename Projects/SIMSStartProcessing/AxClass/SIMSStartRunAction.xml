@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartRunAction</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
+{
+    RefRecId    actionRecId;
+    boolean     hasErrors;
+    str         resultMessage;
+
+    #define.CurrentVersion(1)
+    #localmacro.CurrentList
+        actionRecId,
+        hasErrors,
+        resultMessage
+    #endmacro
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmResultMessage</Name>
+				<Source><![CDATA[
+    public str parmResultMessage(str _resultMessage = resultMessage)
+    {
+        resultMessage = _resultMessage;
+        return resultMessage;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmHasErrors</Name>
+				<Source><![CDATA[
+    public boolean parmHasErrors(boolean _hasErrors = hasErrors)
+    {
+        hasErrors = _hasErrors;
+        return hasErrors;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>canGoBatchJournal</Name>
+				<Source><![CDATA[
+    public boolean canGoBatchJournal()
+    {
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmActionRecId</Name>
+				<Source><![CDATA[
+    public RefRecId parmActionRecId(RefRecId _actionRecId = actionRecId)
+    {
+        actionRecId = _actionRecId;
+        return actionRecId;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    public boolean init()
+    {
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>new</Name>
+				<Source><![CDATA[
+    protected void new()
+    {
+        super();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>pack</Name>
+				<Source><![CDATA[
+    public container pack()
+    {
+        return [#CurrentVersion,#CurrentList];
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    protected boolean update()
+    {
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>run</Name>
+				<Source><![CDATA[
+    public void run()
+    {
+        #OCCRetryCount
+        if (! this.validate())
+        {
+            throw error("");
+        }
+            
+
+        try
+        {
+            hasErrors = this.update();
+        }
+        catch
+        {
+            this.parmHasErrors(true);
+            this.parmResultMessage(strFmt("%1 %2", this.parmResultMessage(), "Process raise the error"));
+        }
+        this.saveHistory();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>saveHistory</Name>
+				<Source><![CDATA[
+    protected void saveHistory()
+    {
+        SIMSStartTrans  startTrans;
+
+        ttsbegin;
+        startTrans.TableRefId   = this.parmActionRecId();
+        startTrans.RunResult    = this.parmResultMessage();
+        startTrans.TransDate    = systemDateGet();
+        startTrans.HasError     = this.parmHasErrors();
+        startTrans.insert();
+
+        SIMSStartTable  startTable = SIMSStartTable::find(this.parmActionRecId(), true);
+        if (startTable)
+        {
+            startTable.HasError = this.parmHasErrors();
+            startTable.ExecutedOn = systemDateGet();
+            startTable.update();
+        }
+        ttscommit;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>runsImpersonated</Name>
+				<Source><![CDATA[
+    public boolean runsImpersonated()
+    {
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>unpack</Name>
+				<Source><![CDATA[
+    public boolean unpack(container packedClass)
+    {
+        Version version = RunBase::getVersion(packedClass);
+        ;
+        switch (version)
+        {
+            case #CurrentVersion:
+                [version,#CurrentList] = packedClass;
+                break;
+            default:
+                return false;
+        }
+
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>validate</Name>
+				<Source><![CDATA[
+    public boolean validate(Object _calledFrom = null)
+    {
+        SIMSStartTable      startTable = SIMSStartTable::find(this.parmActionRecId());
+        if (!startTable.checkIfLineCanRun())
+        {
+            return checkFailed(strFmt("Current URL is %1, tempale URL is %2 not follow fot main URL", startTable.getEnvUrl(), startTable.URLTemplate));
+        }
+            
+
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>construct</Name>
+				<Source><![CDATA[
+    static SIMSStartRunAction construct(SIMSStartTable _startTable)
+    {
+        SIMSStartRunAction  startRunAction;
+
+        switch (_startTable.TaskType)
+        {
+            case SIMSStartTaskType::Class:
+                startRunAction = new SIMSStartRunActionClass();
+                break;
+            case SIMSStartTaskType::SQL:
+                startRunAction = new SIMSStartRunActionSQL();
+                break;
+            default: 
+                startRunAction = new SIMSStartRunAction();
+        }
+
+        startRunAction.parmActionRecId(_startTable.RecId);
+
+        return startRunAction;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>description</Name>
+				<Source><![CDATA[
+    // Here goes a description of the class
+    static ClassDescription description()
+    {
+        return "Run startup action";
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    static void main(Args _args)
+    {
+        SIMSStartRunAction    startRunAction;
+        
+        if (_args && _args.Record() && _args.Record().TableId == tableNum(SIMSStartTable))
+        {
+            startRunAction = SIMSStartRunAction::construct(_args.Record());
+            if (startRunAction.prompt())
+            {
+                startRunAction.runOperation();
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>isRetryable</Name>
+				<Source><![CDATA[
+    [Hookable(false)]
+    public final boolean isRetryable()
+    {
+        return true;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>canRunInNewSession</Name>
+				<Source><![CDATA[
+    protected boolean canRunInNewSession()
+    {
+        return false;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

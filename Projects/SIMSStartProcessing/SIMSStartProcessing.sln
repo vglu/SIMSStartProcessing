@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FC65038C-1B2F-41E1-A629-BED71D161FFF}") = "SIMSStartProcessing (ISV) [SIMSStartProcessing]", "SIMSStartProcessing\SIMSStartProcessing.rnrproj", "{61D1F62B-256E-4946-AEF1-682259730803}"
+EndProject
+Project("{FC65038C-1B2F-41E1-A629-BED71D161FFF}") = "SIMSTSizeBase (ISV) [SIMSTSizeBase]", "SIMSTSizeBase\SIMSTSizeBase.rnrproj", "{BB8209C6-0961-4FC3-99F9-17CBAA745484}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61D1F62B-256E-4946-AEF1-682259730803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D1F62B-256E-4946-AEF1-682259730803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8209C6-0961-4FC3-99F9-17CBAA745484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8209C6-0961-4FC3-99F9-17CBAA745484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54CE4A87-39AF-4AB9-9C39-76D4F4A4C44F}
+	EndGlobalSection
+EndGlobal

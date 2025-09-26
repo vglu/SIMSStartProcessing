@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Diagnostics
+  GenerationTime="2025-09-25T13:42:29.0304432+00:00">
+  <Items>
+    <Diagnostic>
+      <DiagnosticType>ExternalReference</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://Reference/Azure.Core</Path>
+      <Moniker>AssemblyFileNotFound</Moniker>
+      <Message>Assembly 'System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51' failed to load because it was not found.</Message>
+    </Diagnostic>
+    <Diagnostic>
+      <DiagnosticType>Compile</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://Class/SIMSStartRunActionSQL/Method/update</Path>
+      <ElementType>Class Method</ElementType>
+      <Moniker>ObsoleteEntityUsageWithReason</Moniker>
+      <Line>17</Line>
+      <Column>25</Column>
+      <EndLine>17</EndLine>
+      <EndColumn>57</EndColumn>
+      <Message>'executeQuery' is obsolete: ''Please use Methods that pass parameters''.</Message>
+    </Diagnostic>
+  </Items>
+  <Aliases />
+</Diagnostics>

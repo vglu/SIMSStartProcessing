@@ -1,0 +1,7 @@
+.vs/
+bin/
+XppMetadata/
+BuildProjectResult.err.xml
+BuildProjectResult.log
+BuildProjectResult.xml
+Projects/SIMSTSizeBase/SIMSTSizeBase/obj/
