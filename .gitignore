@@ -5,3 +5,6 @@ BuildProjectResult.err.xml
 BuildProjectResult.log
 BuildProjectResult.xml
 Projects/SIMSTSizeBase/SIMSTSizeBase/obj/
+BuildModelResult.err.xml
+BuildModelResult.log
+BuildModelResult.xml
