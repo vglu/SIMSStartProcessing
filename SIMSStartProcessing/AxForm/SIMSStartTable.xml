@@ -9,13 +9,15 @@
 [Form]
 public class SIMSStartTable extends FormRun
 {
-
 }
 ]]></Source>
 			</Method>
 			<Method>
 				<Name>enableControlAccess</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Enable acces to the dif kind of processing
+    /// </summary>
     public void enableControlAccess()
     {
         SIMSStartTable_ds.object(fieldNum(SIMSStartTable, SQL)).allowEdit(SIMSStartTable.TaskType == SIMSStartTaskType::SQL);
@@ -34,9 +36,9 @@ public class SIMSStartTable extends FormRun
 						<Name>active</Name>
 						<Source><![CDATA[
         /// <summary>
-        ///
+        /// Enable access to the fields and buttons
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true or false</returns>
         public int active()
         {
             int ret;
@@ -58,7 +60,7 @@ public class SIMSStartTable extends FormRun
 								<Name>modified</Name>
 								<Source><![CDATA[
             /// <summary>
-            ///
+            /// Change access to the task type if we change task type field
             /// </summary>
             public void modified()
             {
@@ -82,11 +84,10 @@ public class SIMSStartTable extends FormRun
 						<Name>clicked</Name>
 						<Source><![CDATA[
         /// <summary>
-        ///
+        /// Run processing for current line
         /// </summary>
         public void clicked()
         {
-
             DialogButton db = Box::yesNo("Are you sure you want to proceed?", DialogButton::No);
             
             if (db == DialogButton::No)
@@ -96,7 +97,38 @@ public class SIMSStartTable extends FormRun
 
             SIMSStartRunAction  startRunAction = SIMSStartRunAction::construct(SIMSStartTable);
             startRunAction.run();
-            SIMSStartTable_ds.reread();
+            SIMSStartTable_ds.research(true);
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+			</Control>
+			<Control>
+				<Name>ApproveButton</Name>
+				<Type>Button</Type>
+				<Methods>
+					<Method>
+						<Name>clicked</Name>
+						<Source><![CDATA[
+        /// <summary>
+        /// Approval button chack - if you are not administartor you can't approve line for yourself. Some kind of difucalties'
+        /// </summary>
+        public void clicked()
+        {
+            if (curUserId() == 'Admin' || SIMSStartTable.createdBy != curUserId())
+            {
+                SIMSStartLog::addLogFromStartTable(SIMSStartTable, strFmt("Approved by CurUserId = %1", curUserId()));
+                ttsbegin;
+                SIMSStartTable.ApprovedBy = curUserId();
+                SIMSStartTable.write();
+                ttscommit;
+                SIMSStartTable_ds.research(true);
+            }
+            else
+            {
+                Error("Admin or NOT owner (created this task) can approve the line");
+            }
         }
 
 ]]></Source>
@@ -115,6 +147,9 @@ public class SIMSStartTable extends FormRun
 					<DataField>AOTClassName</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
+					<DataField>ApprovedBy</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
 					<DataField>ContinueOnError</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
@@ -126,6 +161,9 @@ public class SIMSStartTable extends FormRun
 				<AxFormDataSourceField>
 					<AllowEdit>No</AllowEdit>
 					<DataField>ExecutedOn</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>HasError</DataField>
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>Partition</DataField>
@@ -205,6 +243,22 @@ public class SIMSStartTable extends FormRun
 								<FormControlExtension
 									i:nil="true" />
 								<MenuItemName>SIMSStartTrans</MenuItemName>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormButtonControl">
+								<Name>ApproveButton</Name>
+								<Type>Button</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Text>Approve</Text>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormMenuFunctionButtonControl">
+								<Name>SIMSStartLog</Name>
+								<Type>MenuFunctionButton</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<MenuItemName>SIMSStartLog</MenuItemName>
 							</AxFormControl>
 						</Controls>
 						<Caption>Actions</Caption>
@@ -728,6 +782,15 @@ public class SIMSStartTable extends FormRun
 										<FormControlExtension
 											i:nil="true" />
 										<DataField>ExecutedOn</DataField>
+										<DataSource>SIMSStartTable</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>SIMSStartTable_ApprovedBy</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>ApprovedBy</DataField>
 										<DataSource>SIMSStartTable</DataSource>
 									</AxFormControl>
 								</Controls>

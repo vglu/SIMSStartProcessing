@@ -3,6 +3,9 @@
 	<Name>SIMSStartRunAction</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Action to run selected line
+/// </summary>
 public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
 {
     RefRecId    actionRecId;
@@ -110,7 +113,7 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         #OCCRetryCount
         if (! this.validate())
         {
-            throw error("");
+            throw error("During process line we have error");
         }
             
 
@@ -142,6 +145,8 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         startTrans.HasError     = this.parmHasErrors();
         startTrans.insert();
 
+        
+
         SIMSStartTable  startTable = SIMSStartTable::find(this.parmActionRecId(), true);
         if (startTable)
         {
@@ -149,6 +154,7 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
             startTable.ExecutedOn = systemDateGet();
             startTable.update();
         }
+        SIMSStartLog::addLogFromStartTable(startTable, strFmt("Has error %1, message %2", this.parmHasErrors(), this.parmResultMessage()));
         ttscommit;
     }
 
@@ -193,7 +199,7 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         SIMSStartTable      startTable = SIMSStartTable::find(this.parmActionRecId());
         if (!startTable.checkIfLineCanRun())
         {
-            return checkFailed(strFmt("Current URL is %1, tempale URL is %2 not follow fot main URL", startTable.getEnvUrl(), startTable.URLTemplate));
+            return checkFailed(strFmt("Current URL is %1, tempale URL is %2 not follow fot main URL or line is not approved", startTable.getEnvUrl(), startTable.URLTemplate));
         }
             
 

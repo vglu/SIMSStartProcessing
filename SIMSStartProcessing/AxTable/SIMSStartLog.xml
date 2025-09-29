@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartLog</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class SIMSStartLog extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>addLogFromStartTable</Name>
+				<Source><![CDATA[
+    public static void addLogFromStartTable(SIMSStartTable _startTable, str _message)
+    {
+        SIMSStartLog::addLog(strFmt("URL %1, Description %2, message %3", _startTable.URLTemplate, _startTable.Description, _message));
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>addLog</Name>
+				<Source><![CDATA[
+    public static void addLog(str _message)
+    {
+        SIMSStartLog    startLog;
+        startLog.initValue();
+        startLog.TransDateTime  = DateTimeUtil::getSystemDateTime();
+        startLog.Log            = _message;
+        startLog.insert();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<Label>SIMS Common log</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TitleField1>TransDateTime</TitleField1>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldUtcDateTime">
+			<Name>TransDateTime</Name>
+			<ExtendedDataType>TransDateTime</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>Trans date</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Log</Name>
+			<ExtendedDataType>Str1260</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>Log</Label>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes />
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

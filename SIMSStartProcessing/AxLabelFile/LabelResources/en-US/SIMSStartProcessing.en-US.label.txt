@@ -1,0 +1,26 @@
+﻿ApprovedBy=Approved by
+ContinueOnError=Continue on error
+DeleteLine=Delete line
+DeleteThisLineAfterTunTheScript=Delete this line after tun the script
+EnvironmentTemplateUrl=Environment template url
+EnvURLTemplate=Env URL template
+ExecutedOn=Executed on
+HasError=Has Error
+LastRunRaiseTheError=Last run raise the error
+NewLabel0=Label files created on 09/29/2025 20:53:59 for label file Id SIMSStartProcessing and language en-US
+ ;Label file comment - see above label
+OrderToRunTheSteps=Order to run the steps
+RunBaseBasedClassname=Run base based classname
+RunOnStart=Run on start
+ShouldBeRunAllNextSteps=Should be run all next steps
+ShouldTheLineRunOnStart=Should the line run on start
+ShouldThisTaskStartAllTimeOrOnce=Should this task start all time or once?
+SIMSStartTableCaption=AOS start processing table
+SIMSStartTableDevDoc=Table for store data to run when AOS is starting
+ ;{locked}
+SordOrder=Sord Order
+SqlScriptToRun=Sql script to run
+SqlScriptToRunOnThisStep=Sql script to run on this step
+StartEachTime=Start each time
+StartType=Start type
+WhenThisLineWasExecutedAtTime=When this line was executed at time

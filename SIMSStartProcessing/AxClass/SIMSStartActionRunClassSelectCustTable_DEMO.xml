@@ -3,8 +3,14 @@
 	<Name>SIMSStartActionRunClassSelectCustTable_DEMO</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Demo class shows hot it can be uses in the AOS start functionality
+/// </summary>
 public class SIMSStartActionRunClassSelectCustTable_DEMO implements SIMSStartActionRunClassInterface
 {
+    /// <summary>
+    /// Method run main update process. Need to be covered by ttsbegin/ttscommit and try/catch if nesessory
+    /// </summary>
     str message;
 }
 ]]></Declaration>
@@ -17,7 +23,7 @@ public class SIMSStartActionRunClassSelectCustTable_DEMO implements SIMSStartAct
         CustTable   custTable;
         select firstonly firstfast crosscompany custTable
             ;
-        message = strFmt("Cust table Acount %1, name %2", custTable.accountNum, custTable.name());
+        message = strFmt('Cust table Acount %1, name %2', custTable.accountNum, custTable.name());
     }
 
 ]]></Source>
@@ -25,6 +31,10 @@ public class SIMSStartActionRunClassSelectCustTable_DEMO implements SIMSStartAct
 			<Method>
 				<Name>resultMessage</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Return status for the log
+    /// </summary>
+    /// <returns>Log message</returns>
     public str resultMessage()
     {
         return message;

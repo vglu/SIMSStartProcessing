@@ -3,6 +3,9 @@
 	<Name>SIMSStartTable</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Main framework table. It store URL/processing and processing rules
+/// </summary>
 public class SIMSStartTable extends common
 {
 }
@@ -11,6 +14,10 @@ public class SIMSStartTable extends common
 			<Method>
 				<Name>getEnvUrl</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Shows URL for current environment
+    /// </summary>
+    /// <returns>env URL</returns>
     [SysClientCacheDataMethodAttribute(true)]
     public display URL getEnvUrl()
     {
@@ -23,9 +30,6 @@ public class SIMSStartTable extends common
 			<Method>
 				<Name>initValue</Name>
 				<Source><![CDATA[
-    /// <summary>
-    ///
-    /// </summary>
     public void initValue()
     {
         super();
@@ -37,6 +41,12 @@ public class SIMSStartTable extends common
 			<Method>
 				<Name>find</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Standard find method
+    /// </summary>
+    /// <param name = "_refRecId">RecId for record</param>
+    /// <param name = "_forupdate">should be record be selected for update</param>
+    /// <returns>cursor if found</returns>
     public static SIMSStartTable find(RefRecId _refRecId, boolean _forupdate = false)
     {
         SIMSStartTable  startTable;
@@ -57,14 +67,17 @@ public class SIMSStartTable extends common
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
-    /// <summary>
-    ///
-    /// </summary>
     public void update()
     {
         if (this.StartAllTime != this.orig().StartAllTime)
         {
+            // if Start each time flag changes - we will clear execute field. This importand for understanding if line alreafy fired 
             this.ExecutedOn = dateNull();
+        }
+        // if we got ANY update (with same approval - let's start appropval process from scratch )
+        if (this.ApprovedBy == this.orig().ApprovedBy)
+        {
+            this.ApprovedBy = '';
         }
         super();
     }
@@ -74,17 +87,23 @@ public class SIMSStartTable extends common
 			<Method>
 				<Name>checkIfLineCanRun</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Chck if curent line can be run from user interface
+    /// </summary>
+    /// <returns>true if can be run</returns>
     public boolean checkIfLineCanRun()
     {
-        return (this.getEnvUrl() like this.URLTemplate);
+        boolean ret = (this.getEnvUrl() like this.URLTemplate) && this.ApprovedBy;
+
+        return ret;
     }
 
 ]]></Source>
 			</Method>
 		</Methods>
 	</SourceCode>
-	<DeveloperDocumentation>Table for store data to run when AOS is starting</DeveloperDocumentation>
-	<Label>AOS start processing table</Label>
+	<DeveloperDocumentation>@SIMSStartProcessing:SIMSStartTableDevDoc</DeveloperDocumentation>
+	<Label>@SIMSStartProcessing:SIMSStartTableCaption</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
@@ -119,7 +138,7 @@ public class SIMSStartTable extends common
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>General</Name>
-			<Label>General</Label>
+			<Label>@SYS81043</Label>
 			<Fields>
 				<AxTableFieldGroupField>
 					<DataField>Description</DataField>
@@ -130,11 +149,14 @@ public class SIMSStartTable extends common
 				<AxTableFieldGroupField>
 					<DataField>URLTemplate</DataField>
 				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ApprovedBy</DataField>
+				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>StartType</Name>
-			<Label>Start type</Label>
+			<Label>@SIMSStartProcessing:StartType</Label>
 			<Fields>
 				<AxTableFieldGroupField>
 					<DataField>TaskType</DataField>
@@ -154,11 +176,14 @@ public class SIMSStartTable extends common
 				<AxTableFieldGroupField>
 					<DataField>DeleteLine</DataField>
 				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ApprovedBy</DataField>
+				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>RunBy</Name>
-			<Label>Run by</Label>
+			<Label>@SYS114521</Label>
 			<Fields>
 				<AxTableFieldGroupField>
 					<DataField>SQL</DataField>
@@ -173,33 +198,35 @@ public class SIMSStartTable extends common
 		<AxTableField xmlns=""
 			i:type="AxTableFieldInt">
 			<Name>SortOrder</Name>
-			<HelpText>Order to run the steps</HelpText>
-			<Label>SordOrder</Label>
+			<ExtendedDataType>DisplayOrder</ExtendedDataType>
+			<HelpText>@SIMSStartProcessing:OrderToRunTheSteps</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SIMSStartProcessing:SordOrder</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>URLTemplate</Name>
 			<ExtendedDataType>Range</ExtendedDataType>
-			<HelpText>Environment template url</HelpText>
+			<HelpText>@SIMSStartProcessing:EnvironmentTemplateUrl</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Env URL template</Label>
+			<Label>@SIMSStartProcessing:EnvURLTemplate</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
 			<Name>RunOnStart</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>Should the line run on start</HelpText>
+			<HelpText>@SIMSStartProcessing:ShouldTheLineRunOnStart</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Run on start</Label>
+			<Label>@SIMSStartProcessing:RunOnStart</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>SQL</Name>
 			<ExtendedDataType>Str1260</ExtendedDataType>
-			<HelpText>Sql script to run on this step</HelpText>
+			<HelpText>@SIMSStartProcessing:SqlScriptToRunOnThisStep</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Sql script to run</Label>
+			<Label>@SIMSStartProcessing:SqlScriptToRun</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
@@ -210,35 +237,35 @@ public class SIMSStartTable extends common
 			i:type="AxTableFieldString">
 			<Name>AOTClassName</Name>
 			<ExtendedDataType>UtilElementName</ExtendedDataType>
-			<HelpText>Run base based classname</HelpText>
+			<HelpText>@SIMSStartProcessing:RunBaseBasedClassname</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Class name</Label>
+			<Label>@SYS121242</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
 			<Name>ContinueOnError</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>Should be run all next steps</HelpText>
+			<HelpText>@SIMSStartProcessing:ShouldBeRunAllNextSteps</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Continue on error</Label>
+			<Label>@SIMSStartProcessing:ContinueOnError</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
 			<Name>StartAllTime</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>Should this task start all time or once?</HelpText>
+			<HelpText>@SIMSStartProcessing:ShouldThisTaskStartAllTimeOrOnce</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Start each time</Label>
+			<Label>@SIMSStartProcessing:StartEachTime</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldDate">
 			<Name>ExecutedOn</Name>
 			<ExtendedDataType>TransDate</ExtendedDataType>
-			<HelpText>When this line was executed lat time</HelpText>
+			<HelpText>@SIMSStartProcessing:WhenThisLineWasExecutedAtTime</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Executed on</Label>
+			<Label>@SIMSStartProcessing:ExecutedOn</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
@@ -250,19 +277,28 @@ public class SIMSStartTable extends common
 			i:type="AxTableFieldEnum">
 			<Name>DeleteLine</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>Delite this line after tun the script</HelpText>
+			<HelpText>@SIMSStartProcessing:DeleteThisLineAfterTunTheScript</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Delete line</Label>
+			<Label>@SIMSStartProcessing:DeleteLine</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
 			<Name>HasError</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>Last run raise the error</HelpText>
+			<HelpText>@SIMSStartProcessing:LastRunRaiseTheError</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Has Error</Label>
+			<Label>@SIMSStartProcessing:HasError</Label>
 			<EnumType>NoYes</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>ApprovedBy</Name>
+			<AllowEdit>No</AllowEdit>
+			<AllowEditOnCreate>No</AllowEditOnCreate>
+			<ExtendedDataType>UserId</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>Approved by</Label>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

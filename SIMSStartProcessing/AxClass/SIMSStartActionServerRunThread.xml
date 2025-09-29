@@ -69,15 +69,17 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
             order by SortOrder
             where startTable.RunOnStart == NoYes::Yes
         {
-            info(startTable.getEnvUrl());
+            SIMSStartLog::addLogFromStartTable(startTable, "Start processing");
             
             if (startTable.StartAllTime == NoYes::No && startTable.ExecutedOn)
             {
+                SIMSStartLog::addLogFromStartTable(startTable, strFmt("Start all time = %1, Executed on = %2, skiped record processing", startTable.StartAllTime, startTable.ExecutedOn));
                 continue;
             }
 
             if (!startTable.checkIfLineCanRun())
             {
+                SIMSStartLog::addLogFromStartTable(startTable, strFmt("URL template %1 not like URL %2, skiped record processing", startTable.URLTemplate, startTable.getEnvUrl()));
                 continue;
             }
 
@@ -89,6 +91,7 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
                 }
                 
                 cnt++;
+                SIMSStartLog::addLogFromStartTable(startTable, strFmt("Record processing"));
                 startRunAction = SIMSStartRunAction::construct(startTable);
                 startRunAction.run();
             }
@@ -96,6 +99,7 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
             {
                 if (startTable.ContinueOnError == NoYes::No)
                 {
+                    SIMSStartLog::addLogFromStartTable(startTable, strFmt("Stop processing for Continue on error = NO! for record %1 %2", startTable.Description, startTable.SortOrder));
                     Error(strFmt("Stop processing for Continue on error = NO! for record %1 %2", startTable.Description, startTable.SortOrder));
                     return;
                 }
@@ -103,13 +107,16 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
 
             if (startRunAction.parmHasErrors())
             {
+                SIMSStartLog::addLogFromStartTable(startTable, strfmt("Line %1 %2 has error", startTable.Description, startTable.SortOrder));
                 error(strfmt("Line %1 %2 has error", startTable.Description, startTable.SortOrder));
             }
             else
             {
+                SIMSStartLog::addLogFromStartTable(startTable, strfmt("Line %1 %2 processed", startTable.Description, startTable.SortOrder));
                 info(strfmt("Line %1 %2 processed", startTable.Description, startTable.SortOrder));
             }
         }
+        SIMSStartLog::addLog(strFmt("%1 processed lines", cnt));
         info(strFmt("%1 processed lines", cnt));
     }
 

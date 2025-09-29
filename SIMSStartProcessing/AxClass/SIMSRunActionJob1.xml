@@ -3,6 +3,9 @@
 	<Name>SIMSRunActionJob1</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Job show some basic metadata information
+/// </summary>
 internal final class SIMSRunActionJob1
 {
 }
@@ -12,10 +15,9 @@ internal final class SIMSRunActionJob1
 				<Name>main</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Class entry point. The system will call this method when a designated menu 
-    /// is selected or when execution starts and this class is set as the startup class.
+    /// Collect and show the information about instastructure variables
     /// </summary>
-    /// <param name = "_args">The specified arguments.</param>
+    /// <param name = "_args">Default parameter</param>
     public static void main(Args _args)
     {
         var applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();

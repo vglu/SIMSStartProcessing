@@ -38,8 +38,12 @@
     <Folder Include="Classes\" />
     <Folder Include="Display Menu Items\" />
     <Folder Include="Forms\" />
+    <Folder Include="Label Files\" />
     <Folder Include="Menu Extensions\" />
     <Folder Include="Menus\" />
+    <Folder Include="Security Duties\" />
+    <Folder Include="Security Privileges\" />
+    <Folder Include="Security Roles\" />
     <Folder Include="Tables\" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +92,16 @@
       <Name>SIMSStartTaskType</Name>
       <Link>Base Enums\SIMSStartTaskType</Link>
     </Content>
+    <Content Include="AxForm\SIMSStartLog">
+      <SubType>Content</SubType>
+      <Name>SIMSStartLog</Name>
+      <Link>Forms\SIMSStartLog</Link>
+    </Content>
+    <Content Include="AxForm\SIMSStartSubAdmins">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSubAdmins</Name>
+      <Link>Forms\SIMSStartSubAdmins</Link>
+    </Content>
     <Content Include="AxForm\SIMSStartTable">
       <SubType>Content</SubType>
       <Name>SIMSStartTable</Name>
@@ -98,10 +112,25 @@
       <Name>SIMSStartTrans</Name>
       <Link>Forms\SIMSStartTrans</Link>
     </Content>
+    <Content Include="AxLabelFile\SIMSStartProcessing_en-US">
+      <SubType>Content</SubType>
+      <Name>SIMSStartProcessing_en-US</Name>
+      <Link>Label Files\SIMSStartProcessing_en-US</Link>
+    </Content>
     <Content Include="AxMenuExtension\SystemAdministration.SIMSStartProcessing">
       <SubType>Content</SubType>
       <Name>SystemAdministration.SIMSStartProcessing</Name>
       <Link>Menu Extensions\SystemAdministration.SIMSStartProcessing</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\SIMSStartLog">
+      <SubType>Content</SubType>
+      <Name>SIMSStartLog</Name>
+      <Link>Display Menu Items\SIMSStartLog</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\SIMSStartSubAdmins">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSubAdmins</Name>
+      <Link>Display Menu Items\SIMSStartSubAdmins</Link>
     </Content>
     <Content Include="AxMenuItemDisplay\SIMSStartTable">
       <SubType>Content</SubType>
@@ -118,6 +147,31 @@
       <Name>SISMStartProcessing</Name>
       <Link>Menus\SISMStartProcessing</Link>
     </Content>
+    <Content Include="AxSecurityDuty\SIMSStartProcessingDuty">
+      <SubType>Content</SubType>
+      <Name>SIMSStartProcessingDuty</Name>
+      <Link>Security Duties\SIMSStartProcessingDuty</Link>
+    </Content>
+    <Content Include="AxSecurityPrivilege\SIMSStartProcessingPrivilege">
+      <SubType>Content</SubType>
+      <Name>SIMSStartProcessingPrivilege</Name>
+      <Link>Security Privileges\SIMSStartProcessingPrivilege</Link>
+    </Content>
+    <Content Include="AxSecurityRole\SIMSStartProcessingUser">
+      <SubType>Content</SubType>
+      <Name>SIMSStartProcessingUser</Name>
+      <Link>Security Roles\SIMSStartProcessingUser</Link>
+    </Content>
+    <Content Include="AxTable\SIMSStartLog">
+      <SubType>Content</SubType>
+      <Name>SIMSStartLog</Name>
+      <Link>Tables\SIMSStartLog</Link>
+    </Content>
+    <Content Include="AxTable\SIMSStartSubAdmins">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSubAdmins</Name>
+      <Link>Tables\SIMSStartSubAdmins</Link>
+    </Content>
     <Content Include="AxTable\SIMSStartTable">
       <SubType>Content</SubType>
       <Name>SIMSStartTable</Name>
@@ -127,6 +181,11 @@
       <SubType>Content</SubType>
       <Name>SIMSStartTrans</Name>
       <Link>Tables\SIMSStartTrans</Link>
+    </Content>
+    <Content Include="SIMSStartProcessing.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>SIMSStartProcessing.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\SIMSStartProcessing_en-US</DependentUpon>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
