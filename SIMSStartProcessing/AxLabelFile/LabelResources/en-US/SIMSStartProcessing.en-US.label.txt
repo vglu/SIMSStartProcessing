@@ -10,6 +10,8 @@ LastRunRaiseTheError=Last run raise the error
 NewLabel0=Label files created on 09/29/2025 20:53:59 for label file Id SIMSStartProcessing and language en-US
  ;Label file comment - see above label
 OrderToRunTheSteps=Order to run the steps
+ProcessedLines=%1 processed lines
+RecordProcessing=Record processing
 RunBaseBasedClassname=Run base based classname
 RunOnStart=Run on start
 ShouldBeRunAllNextSteps=Should be run all next steps
@@ -21,6 +23,10 @@ SIMSStartTableDevDoc=Table for store data to run when AOS is starting
 SordOrder=Sord Order
 SqlScriptToRun=Sql script to run
 SqlScriptToRunOnThisStep=Sql script to run on this step
+StartAllTimeExecutedOnSkipedRecordProcessing=Start all time = %1, Executed on = %2, skipped record processing
 StartEachTime=Start each time
+StartProcessing=Start processing
 StartType=Start type
+StopProcessingForContinueOnError=Stop processing for Continue on error = NO! for record %1 %2
+URLTemplateNotLikeURLSkipedRecordProcessing=URL template %1 not like URL %2, skipped record processing
 WhenThisLineWasExecutedAtTime=When this line was executed at time

@@ -69,17 +69,17 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
             order by SortOrder
             where startTable.RunOnStart == NoYes::Yes
         {
-            SIMSStartLog::addLogFromStartTable(startTable, "Start processing");
+            SIMSStartLog::addLogFromStartTable(startTable, "@SIMSStartProcessing:StartProcessing");
             
             if (startTable.StartAllTime == NoYes::No && startTable.ExecutedOn)
             {
-                SIMSStartLog::addLogFromStartTable(startTable, strFmt("Start all time = %1, Executed on = %2, skiped record processing", startTable.StartAllTime, startTable.ExecutedOn));
+                SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:StartAllTimeExecutedOnSkipedRecordProcessing", startTable.StartAllTime, startTable.ExecutedOn));
                 continue;
             }
 
             if (!startTable.checkIfLineCanRun())
             {
-                SIMSStartLog::addLogFromStartTable(startTable, strFmt("URL template %1 not like URL %2, skiped record processing", startTable.URLTemplate, startTable.getEnvUrl()));
+                SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:URLTemplateNotLikeURLSkipedRecordProcessing", startTable.URLTemplate, startTable.getEnvUrl()));
                 continue;
             }
 
@@ -91,7 +91,7 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
                 }
                 
                 cnt++;
-                SIMSStartLog::addLogFromStartTable(startTable, strFmt("Record processing"));
+                SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:RecordProcessing"));
                 startRunAction = SIMSStartRunAction::construct(startTable);
                 startRunAction.run();
             }
@@ -99,8 +99,8 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
             {
                 if (startTable.ContinueOnError == NoYes::No)
                 {
-                    SIMSStartLog::addLogFromStartTable(startTable, strFmt("Stop processing for Continue on error = NO! for record %1 %2", startTable.Description, startTable.SortOrder));
-                    Error(strFmt("Stop processing for Continue on error = NO! for record %1 %2", startTable.Description, startTable.SortOrder));
+                    SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:StopProcessingForContinueOnError", startTable.Description, startTable.SortOrder));
+                    Error(strFmt("@SIMSStartProcessing:StopProcessingForContinueOnError", startTable.Description, startTable.SortOrder));  // TODO: Stop processing for Continue on error = NO! for record %1 %2
                     return;
                 }
             }
@@ -116,8 +116,8 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
                 info(strfmt("Line %1 %2 processed", startTable.Description, startTable.SortOrder));
             }
         }
-        SIMSStartLog::addLog(strFmt("%1 processed lines", cnt));
-        info(strFmt("%1 processed lines", cnt));
+        SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:ProcessedLines", cnt));
+        info(strFmt("@SIMSStartProcessing:ProcessedLines", cnt));
     }
 
 ]]></Source>
@@ -132,7 +132,9 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
     {
         #OCCRetryCount
         if (! this.validate())
-            throw error("");
+        {
+            throw error("Error during validsation");
+        }
 
         this.update();
 
