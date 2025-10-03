@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AxSecurityDuty xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
 	<Name>SIMSStartProcessingDuty</Name>
-	<Label>AOS Start processing Duty</Label>
+	<Label>@SIMSStartProcessing:AOSStartProcessingDuty</Label>
 	<Privileges>
 		<AxSecurityPrivilegeReference>
 			<Name>SIMSStartProcessingPrivilege</Name>

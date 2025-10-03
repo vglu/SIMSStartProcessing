@@ -3,6 +3,9 @@
 	<Name>SIMSStartRunActionSQL</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Call SQL processing actions
+/// </summary>
 public class SIMSStartRunActionSQL extends SIMSStartRunAction
 {
 }
@@ -11,6 +14,10 @@ public class SIMSStartRunActionSQL extends SIMSStartRunAction
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Method update
+    /// </summary>
+    /// <returns>return if this method has errors - reason - we can throw during error or continue processing</returns>
     protected boolean update()
     {
         SIMSStartTable      startTable  = SIMSStartTable::find(this.parmActionRecId());
@@ -27,10 +34,10 @@ public class SIMSStartRunActionSQL extends SIMSStartRunAction
 
             var ssep = new SqlStatementExecutePermission(sqlQuery);
             ssep.assert();
-
-            rowsAffected = statement.executeUpdate(sqlQuery);
+            rowsAffected = statement.executeUpdateWithParameters(sqlQuery, null);
+            //rowsAffected = statement.executeUpdate(sqlQuery);
             CodeAccessPermission::revertAssert();
-            this.parmResultMessage(strFmt("Affected to the %1 rows", rowsAffected));
+            this.parmResultMessage(strFmt("@SIMSStartProcessing:AffectedToTheRows", rowsAffected));
             hasErrorsRet = false;
         }
         catch(ex)

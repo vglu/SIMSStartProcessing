@@ -3,6 +3,9 @@
 	<Name>SIMSStartRunActionClass</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Run action for AOT class
+/// </summary>
 public class SIMSStartRunActionClass extends SIMSStartRunAction
 {
 }
@@ -11,6 +14,10 @@ public class SIMSStartRunActionClass extends SIMSStartRunAction
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// update method
+    /// </summary>
+    /// <returns>if processing finish with error</returns>
     protected boolean update()
     {
         
@@ -26,7 +33,7 @@ public class SIMSStartRunActionClass extends SIMSStartRunAction
         }
         catch
         {
-            this.parmResultMessage(strFmt("class %1 raise the issue", startTable.AOTClassName));
+            this.parmResultMessage(strFmt("@SIMSStartProcessing:ClassRaiseTheIssue", startTable.AOTClassName));
         }
         return hasErrorsRet;
     }

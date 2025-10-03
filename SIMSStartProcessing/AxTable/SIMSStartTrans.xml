@@ -9,7 +9,8 @@ public class SIMSStartTrans extends common
 ]]></Declaration>
 		<Methods />
 	</SourceCode>
-	<Label>History of AOS start run</Label>
+	<DeveloperDocumentation>@SIMSStartProcessing:SIMSStartTransDevDoc</DeveloperDocumentation>
+	<Label>@SIMSStartProcessing:HistoryOfAOSStartRun</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
@@ -23,7 +24,20 @@ public class SIMSStartTrans extends common
 	<FieldGroups>
 		<AxTableFieldGroup>
 			<Name>AutoReport</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TableRefId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RunResult</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TransDate</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>HasError</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoLookup</Name>
@@ -42,18 +56,39 @@ public class SIMSStartTrans extends common
 			<Name>AutoBrowse</Name>
 			<Fields />
 		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>General</Name>
+			<Label>@SYS57714</Label>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TableRefId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RunResult</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TransDate</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>HasError</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
 	</FieldGroups>
 	<Fields>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldInt64">
 			<Name>TableRefId</Name>
+			<ExtendedDataType>RefRecId</ExtendedDataType>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SYS65335</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>RunResult</Name>
 			<ExtendedDataType>Str1260</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Log</Label>
+			<Label>@SIMSStartProcessing:Log</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldDate">
@@ -65,9 +100,9 @@ public class SIMSStartTrans extends common
 			i:type="AxTableFieldEnum">
 			<Name>HasError</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>This line has error</HelpText>
+			<HelpText>@SIMSStartProcessing:ThisLineHasError</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Has error</Label>
+			<Label>@SIMSStartProcessing:HasError</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 	</Fields>

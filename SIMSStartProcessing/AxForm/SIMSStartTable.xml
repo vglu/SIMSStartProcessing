@@ -88,7 +88,7 @@ public class SIMSStartTable extends FormRun
         /// </summary>
         public void clicked()
         {
-            DialogButton db = Box::yesNo("Are you sure you want to proceed?", DialogButton::No);
+            DialogButton db = Box::yesNo("@SIMSStartProcessing:AreYouSureYouWantToProceed", DialogButton::No);
             
             if (db == DialogButton::No)
             {
@@ -96,7 +96,7 @@ public class SIMSStartTable extends FormRun
             }
 
             SIMSStartRunAction  startRunAction = SIMSStartRunAction::construct(SIMSStartTable);
-            startRunAction.run();
+            startRunAction.runOperation();
             SIMSStartTable_ds.research(true);
         }
 
@@ -116,9 +116,9 @@ public class SIMSStartTable extends FormRun
         /// </summary>
         public void clicked()
         {
-            if (curUserId() == 'Admin' || SIMSStartTable.createdBy != curUserId())
+            if (curUserId() == 'Admin' || SIMSStartTable.createdBy != curUserId() || SIMSStartSubAdmins::isUserCanApproveTheLines(curUserId()))
             {
-                SIMSStartLog::addLogFromStartTable(SIMSStartTable, strFmt("Approved by CurUserId = %1", curUserId()));
+                SIMSStartLog::addLogFromStartTable(SIMSStartTable, strFmt("@SIMSStartProcessing:ApprovedByCurUserId", curUserId()));
                 ttsbegin;
                 SIMSStartTable.ApprovedBy = curUserId();
                 SIMSStartTable.write();
@@ -127,7 +127,7 @@ public class SIMSStartTable extends FormRun
             }
             else
             {
-                Error("Admin or NOT owner (created this task) can approve the line");
+                Error("@SIMSStartProcessing:AdminNotOwner");
             }
         }
 
@@ -201,7 +201,7 @@ public class SIMSStartTable extends FormRun
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
-		<Caption xmlns="">AOS start functionality</Caption>
+		<Caption xmlns="">@SIMSStartProcessing:AosStartFunctionality</Caption>
 		<DataSource xmlns="">SIMSStartTable</DataSource>
 		<Pattern xmlns="">DetailsMaster</Pattern>
 		<PatternVersion xmlns="">1.4</PatternVersion>
@@ -234,7 +234,7 @@ public class SIMSStartTable extends FormRun
 								<Type>Button</Type>
 								<FormControlExtension
 									i:nil="true" />
-								<Text>RUN!</Text>
+								<Text>@SIMSStartProcessing:RunOn</Text>
 							</AxFormControl>
 							<AxFormControl xmlns=""
 								i:type="AxFormMenuFunctionButtonControl">
@@ -250,7 +250,7 @@ public class SIMSStartTable extends FormRun
 								<Type>Button</Type>
 								<FormControlExtension
 									i:nil="true" />
-								<Text>Approve</Text>
+								<Text>@SYS16449</Text>
 							</AxFormControl>
 							<AxFormControl xmlns=""
 								i:type="AxFormMenuFunctionButtonControl">
@@ -458,10 +458,10 @@ public class SIMSStartTable extends FormRun
 										<ElementPosition>306783378</ElementPosition>
 										<FilterExpression>%1</FilterExpression>
 										<HeightMode>Auto</HeightMode>
-										<Pattern>Custom</Pattern>
+										<Pattern>FieldsFieldGroups</Pattern>
+										<PatternVersion>1.1</PatternVersion>
 										<Type>TabPage</Type>
 										<VerticalSpacing>-1</VerticalSpacing>
-										<Width>0</Width>
 										<WidthMode>SizeToAvailable</WidthMode>
 										<FormControlExtension
 											i:nil="true" />
@@ -501,8 +501,6 @@ public class SIMSStartTable extends FormRun
 														<DataSource>SIMSStartTable</DataSource>
 													</AxFormControl>
 												</Controls>
-												<Columns>2</Columns>
-												<ColumnsMode>Fill</ColumnsMode>
 												<DataGroup>General</DataGroup>
 												<DataSource>SIMSStartTable</DataSource>
 											</AxFormControl>
@@ -569,13 +567,11 @@ public class SIMSStartTable extends FormRun
 														<DataSource>SIMSStartTable</DataSource>
 													</AxFormControl>
 												</Controls>
-												<Columns>2</Columns>
-												<ColumnsMode>Fill</ColumnsMode>
 												<DataGroup>StartType</DataGroup>
 												<DataSource>SIMSStartTable</DataSource>
 											</AxFormControl>
 										</Controls>
-										<Columns>2</Columns>
+										<ColumnsMode>Fill</ColumnsMode>
 										<Caption>@SYS2952</Caption>
 										<DataSource>SIMSStartTable</DataSource>
 										<Scrollbars>Auto</Scrollbars>
@@ -583,7 +579,8 @@ public class SIMSStartTable extends FormRun
 									<AxFormControl xmlns=""
 										i:type="AxFormTabPageControl">
 										<Name>RunDetailsSQL</Name>
-										<Pattern>Custom</Pattern>
+										<Pattern>FieldsFieldGroups</Pattern>
+										<PatternVersion>1.1</PatternVersion>
 										<Type>TabPage</Type>
 										<FormControlExtension
 											i:nil="true" />
@@ -591,9 +588,7 @@ public class SIMSStartTable extends FormRun
 											<AxFormControl xmlns=""
 												i:type="AxFormStringControl">
 												<Name>SIMSStartTable_SQL</Name>
-												<HeightMode>SizeToAvailable</HeightMode>
 												<Type>String</Type>
-												<WidthMode>SizeToAvailable</WidthMode>
 												<FormControlExtension
 													i:nil="true" />
 												<DataField>SQL</DataField>
@@ -601,16 +596,18 @@ public class SIMSStartTable extends FormRun
 												<DisplayHeight>200</DisplayHeight>
 												<DisplayLength>200</DisplayLength>
 												<MultiLine>Yes</MultiLine>
-												<Text>Paste SQL here</Text>
+												<Text>@SIMSStartProcessing:PasteSQLHere</Text>
 											</AxFormControl>
 										</Controls>
-										<Caption>Run details SQL</Caption>
+										<ColumnsMode>Fill</ColumnsMode>
+										<Caption>@SIMSStartProcessing:RunDetailsSQL</Caption>
 										<DataSource>SIMSStartTable</DataSource>
 									</AxFormControl>
 									<AxFormControl xmlns=""
 										i:type="AxFormTabPageControl">
 										<Name>RunDetailsClass</Name>
-										<Pattern>Custom</Pattern>
+										<Pattern>FieldsFieldGroups</Pattern>
+										<PatternVersion>1.1</PatternVersion>
 										<Type>TabPage</Type>
 										<FormControlExtension
 											i:nil="true" />
@@ -619,14 +616,14 @@ public class SIMSStartTable extends FormRun
 												i:type="AxFormStringControl">
 												<Name>SIMSStartTable_AOTClassName</Name>
 												<Type>String</Type>
-												<WidthMode>SizeToAvailable</WidthMode>
 												<FormControlExtension
 													i:nil="true" />
 												<DataField>AOTClassName</DataField>
 												<DataSource>SIMSStartTable</DataSource>
 											</AxFormControl>
 										</Controls>
-										<Caption>Run Class</Caption>
+										<ColumnsMode>Fill</ColumnsMode>
+										<Caption>@SIMSStartProcessing:RunClass</Caption>
 									</AxFormControl>
 								</Controls>
 								<AlignChild>No</AlignChild>

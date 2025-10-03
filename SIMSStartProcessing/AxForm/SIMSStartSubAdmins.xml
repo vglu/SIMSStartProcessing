@@ -9,11 +9,53 @@
 [Form]
 public class SIMSStartSubAdmins extends FormRun
 {
+    boolean superAdmin;
+
 }
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public void init()
+    {
+        super();
+        element.design().caption(strFmt("@SIMSStartProcessing:Perc1Perc2", element.design().caption(), SIMSStartSubAdmins.caption()));
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
-		<DataSources xmlns="" />
+		<DataSources xmlns="">
+			<DataSource>
+				<Name>SIMSStartSubAdmins</Name>
+				<Methods>
+					<Method>
+						<Name>validateWrite</Name>
+						<Source><![CDATA[
+        public boolean validateWrite()
+        {
+            boolean ret;
+        
+            ret = super();
+
+            if (ret && !(curUserId() == 'Admin' || SIMSStartSubAdmins::isUserCanApproveTheLines(curUserId()) || SIMSStartSubAdmins::isSuperUrlCall()))
+            {
+                ret = checkFailed("@SIMSStartProcessing:IsUserAdminOrSubadminCheck");
+            }
+        
+            return ret;
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
+		</DataSources>
 		<DataControls xmlns="" />
 		<Members xmlns="" />
 	</SourceCode>
@@ -51,15 +93,19 @@ public class SIMSStartSubAdmins extends FormRun
 				</AxFormDataSourceField>
 			</Fields>
 			<ReferencedDataSources />
+			<InsertAtEnd>No</InsertAtEnd>
+			<InsertIfEmpty>No</InsertIfEmpty>
 			<DataSourceLinks />
 			<DerivedDataSources />
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
-		<Caption xmlns="">AOS Sum</Caption>
+		<Caption xmlns="">@SIMSStartProcessing:AosSubAdmin</Caption>
+		<DataSource xmlns="">SIMSStartSubAdmins</DataSource>
 		<Pattern xmlns="">SimpleList</Pattern>
 		<PatternVersion xmlns="">1.1</PatternVersion>
 		<Style xmlns="">SimpleList</Style>
+		<TitleDataSource xmlns="">SIMSStartSubAdmins</TitleDataSource>
 		<Controls xmlns="">
 			<AxFormControl xmlns=""
 				i:type="AxFormActionPaneControl">

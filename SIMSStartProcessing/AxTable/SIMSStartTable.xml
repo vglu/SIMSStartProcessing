@@ -103,6 +103,7 @@ public class SIMSStartTable extends common
 		</Methods>
 	</SourceCode>
 	<DeveloperDocumentation>@SIMSStartProcessing:SIMSStartTableDevDoc</DeveloperDocumentation>
+	<FormRef>SIMSStartTable</FormRef>
 	<Label>@SIMSStartProcessing:SIMSStartTableCaption</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
@@ -117,7 +118,17 @@ public class SIMSStartTable extends common
 	<FieldGroups>
 		<AxTableFieldGroup>
 			<Name>AutoReport</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>URLTemplate</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Description</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TaskType</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoLookup</Name>
@@ -151,6 +162,9 @@ public class SIMSStartTable extends common
 				</AxTableFieldGroupField>
 				<AxTableFieldGroupField>
 					<DataField>ApprovedBy</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>HasError</DataField>
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
@@ -298,7 +312,7 @@ public class SIMSStartTable extends common
 			<AllowEditOnCreate>No</AllowEditOnCreate>
 			<ExtendedDataType>UserId</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Approved by</Label>
+			<Label>@SYS3492</Label>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

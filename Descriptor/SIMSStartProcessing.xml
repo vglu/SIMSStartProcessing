@@ -19,10 +19,10 @@
 		<d2p1:string>Directory</d2p1:string>
 	</ModuleReferences>
 	<Name>SIMSStartProcessing</Name>
-	<Publisher>SIMS</Publisher>
+	<Publisher>SIMS tech</Publisher>
 	<SolutionId>00000000-0000-0000-0000-000000000000</SolutionId>
 	<VersionBuild>0</VersionBuild>
 	<VersionMajor>1</VersionMajor>
 	<VersionMinor>0</VersionMinor>
-	<VersionRevision>0</VersionRevision>
+	<VersionRevision>1</VersionRevision>
 </AxModelInfo>

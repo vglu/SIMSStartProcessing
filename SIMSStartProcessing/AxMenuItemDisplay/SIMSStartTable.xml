@@ -2,7 +2,7 @@
 <AxMenuItemDisplay xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V1">
 	<Name>SIMSStartTable</Name>
 	<FormViewOption>Grid</FormViewOption>
-	<Label>AOT run process</Label>
+	<Label>@SIMSStartProcessing:AosRunProcess</Label>
 	<Object>SIMSStartTable</Object>
 	<SubscriberAccessLevel>
 		<Read xmlns="">Allow</Read>

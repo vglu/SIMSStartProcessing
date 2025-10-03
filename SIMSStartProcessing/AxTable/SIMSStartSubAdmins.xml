@@ -3,8 +3,12 @@
 	<Name>SIMSStartSubAdmins</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// This table store sub admins (who can approve own task for itself)
+/// </summary>
 public class SIMSStartSubAdmins extends common
 {
+
 }
 ]]></Declaration>
 		<Methods>
@@ -29,10 +33,81 @@ public class SIMSStartSubAdmins extends common
 
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>insert</Name>
+				<Source><![CDATA[
+    public void insert()
+    {
+        SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:SubAdminsInsertTableRecord", this.UserId, curUserId()));
+        super();                                                         
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    public void update()
+    {
+        SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:SubAdminsUpdateTableRecord", this.orig().UserId, this.UserId, curUserId()));
+        super();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>delete</Name>
+				<Source><![CDATA[
+    public void delete()
+    {
+        SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:SubAdminsDeleteTableRecord", this.UserId, curUserId()));
+        super();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>isSuperUrlCall</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Check if URL form called with Admin user parameter
+    /// </summary>
+    /// <returns>True if call with admin param</returns>
+    public static boolean isSuperUrlCall()
+    {
+        URLUtility urlUtility = new URLUtility();
+
+        str user = urlUtility.getQueryParamValue('user');
+
+        return user == 'Admin';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>caption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Display method for form caption
+    /// </summary>
+    /// <returns>return form caption</returns>
+    [SysClientCacheDataMethodAttribute(true)]
+    public str caption()
+    {
+        if (SIMSStartSubAdmins::isSuperUrlCall())
+        {
+            return strFmt("@SIMSStartProcessing:AdminMode", curUserId());
+        }
+        return curUserId();
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 	</SourceCode>
-	<DeveloperDocumentation>Table store information for power users who can approve the scripts</DeveloperDocumentation>
-	<Label>AOS Start sub admins</Label>
+	<DeveloperDocumentation>@SIMSStartProcessing:AOSStartSubAdminTableDevDoc</DeveloperDocumentation>
+	<FormRef>SIMSStartSubAdmins</FormRef>
+	<Label>@SIMSStartProcessing:AOSStartSubAdmins</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
@@ -50,7 +125,14 @@ public class SIMSStartSubAdmins extends common
 	<FieldGroups>
 		<AxTableFieldGroup>
 			<Name>AutoReport</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>UserId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Enabled</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoLookup</Name>
@@ -75,17 +157,17 @@ public class SIMSStartSubAdmins extends common
 			i:type="AxTableFieldString">
 			<Name>UserId</Name>
 			<ExtendedDataType>UserId</ExtendedDataType>
-			<HelpText>User allowed to approve the tasks</HelpText>
+			<HelpText>@SIMSStartProcessing:UserAllowedToApproveTheTasks</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Sub admin</Label>
+			<Label>@SIMSStartProcessing:SubAdmin</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldEnum">
 			<Name>Enabled</Name>
 			<ExtendedDataType>NoYesId</ExtendedDataType>
-			<HelpText>Is user enabled for work</HelpText>
+			<HelpText>@SIMSStartProcessing:IsUserEnabledForApprove</HelpText>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Enabled</Label>
+			<Label>@SYS317130</Label>
 			<EnumType>NoYes</EnumType>
 		</AxTableField>
 	</Fields>

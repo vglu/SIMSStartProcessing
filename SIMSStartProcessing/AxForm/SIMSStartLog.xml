@@ -12,6 +12,17 @@ public class SIMSStartLog extends FormRun
 }
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    public void init()
+    {
+        super();
+        SIMSStartLog_ds.allowDelete(curUserId() == 'Admin');
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 		<DataSources xmlns="" />
 		<DataControls xmlns="" />
@@ -43,7 +54,6 @@ public class SIMSStartLog extends FormRun
 			</Fields>
 			<ReferencedDataSources />
 			<AllowCreate>No</AllowCreate>
-			<AllowDelete>No</AllowDelete>
 			<AllowEdit>No</AllowEdit>
 			<StartPosition>Last</StartPosition>
 			<DataSourceLinks />
@@ -51,7 +61,7 @@ public class SIMSStartLog extends FormRun
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
-		<Caption xmlns="">SIMS Start log</Caption>
+		<Caption xmlns="">@SIMSStartProcessing:SimsStartLog</Caption>
 		<Pattern xmlns="">SimpleList</Pattern>
 		<PatternVersion xmlns="">1.1</PatternVersion>
 		<Style xmlns="">SimpleList</Style>
@@ -166,8 +176,6 @@ public class SIMSStartLog extends FormRun
 				</Controls>
 				<AlternateRowShading>No</AlternateRowShading>
 				<DataSource>SIMSStartLog</DataSource>
-				<MultiSelect>No</MultiSelect>
-				<ShowRowLabels>No</ShowRowLabels>
 				<Style>Tabular</Style>
 			</AxFormControl>
 		</Controls>

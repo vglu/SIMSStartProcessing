@@ -11,9 +11,14 @@ public class SIMSStartLog extends common
 			<Method>
 				<Name>addLogFromStartTable</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Add log message for <c>SIMSStartTable</c>
+    /// </summary>
+    /// <param name = "_startTable">Table itself</param>
+    /// <param name = "_message">Message</param>
     public static void addLogFromStartTable(SIMSStartTable _startTable, str _message)
     {
-        SIMSStartLog::addLog(strFmt("URL %1, Description %2, message %3", _startTable.URLTemplate, _startTable.Description, _message));
+        SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:URLDescriptionMessage", _startTable.URLTemplate, _startTable.Description, _message));
     }
 
 ]]></Source>
@@ -21,6 +26,10 @@ public class SIMSStartLog extends common
 			<Method>
 				<Name>addLog</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Add simple log message
+    /// </summary>
+    /// <param name = "_message">message to save</param>
     public static void addLog(str _message)
     {
         SIMSStartLog    startLog;
@@ -34,7 +43,8 @@ public class SIMSStartLog extends common
 			</Method>
 		</Methods>
 	</SourceCode>
-	<Label>SIMS Common log</Label>
+	<DeveloperDocumentation>@SIMSStartProcessing:TableStoreCommonLogForAllActions</DeveloperDocumentation>
+	<Label>@SIMSStartProcessing:SIMSCommonLog</Label>
 	<SubscriberAccessLevel>
 		<Read>Allow</Read>
 	</SubscriberAccessLevel>
@@ -44,7 +54,14 @@ public class SIMSStartLog extends common
 	<FieldGroups>
 		<AxTableFieldGroup>
 			<Name>AutoReport</Name>
-			<Fields />
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TransDateTime</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Log</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
 		</AxTableFieldGroup>
 		<AxTableFieldGroup>
 			<Name>AutoLookup</Name>
@@ -63,6 +80,18 @@ public class SIMSStartLog extends common
 			<Name>AutoBrowse</Name>
 			<Fields />
 		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Genetal</Name>
+			<Label>@SYS57714</Label>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>TransDateTime</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Log</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
 	</FieldGroups>
 	<Fields>
 		<AxTableField xmlns=""
@@ -70,14 +99,13 @@ public class SIMSStartLog extends common
 			<Name>TransDateTime</Name>
 			<ExtendedDataType>TransDateTime</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Trans date</Label>
 		</AxTableField>
 		<AxTableField xmlns=""
 			i:type="AxTableFieldString">
 			<Name>Log</Name>
 			<ExtendedDataType>Str1260</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
-			<Label>Log</Label>
+			<Label>@SIMSStartProcessing:Log</Label>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

@@ -3,6 +3,9 @@
 	<Name>SIMSStartActionServerRunThread</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// During AOS start we run Batch class for safety reasons. This class run all processing
+/// </summary>
 class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetryable
 {
     int     dummy;
@@ -59,6 +62,9 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Update method
+    /// </summary>
     protected void update()
     {
         SIMSStartTable      startTable;
@@ -91,29 +97,29 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
                 }
                 
                 cnt++;
-                SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:RecordProcessing"));
+                SIMSStartLog::addLogFromStartTable(startTable,"@SIMSStartProcessing:RecordProcessing");
                 startRunAction = SIMSStartRunAction::construct(startTable);
-                startRunAction.run();
+                startRunAction.runOperation();
             }
             catch
             {
                 if (startTable.ContinueOnError == NoYes::No)
                 {
                     SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:StopProcessingForContinueOnError", startTable.Description, startTable.SortOrder));
-                    Error(strFmt("@SIMSStartProcessing:StopProcessingForContinueOnError", startTable.Description, startTable.SortOrder));  // TODO: Stop processing for Continue on error = NO! for record %1 %2
+                    Error(strFmt("@SIMSStartProcessing:StopProcessingForContinueOnError", startTable.Description, startTable.SortOrder)); 
                     return;
                 }
             }
 
             if (startRunAction.parmHasErrors())
             {
-                SIMSStartLog::addLogFromStartTable(startTable, strfmt("Line %1 %2 has error", startTable.Description, startTable.SortOrder));
-                error(strfmt("Line %1 %2 has error", startTable.Description, startTable.SortOrder));
+                SIMSStartLog::addLogFromStartTable(startTable, strfmt("@SIMSStartProcessing:LineHasError", startTable.Description, startTable.SortOrder));
+                error(strfmt("@SIMSStartProcessing:LineHasError", startTable.Description, startTable.SortOrder));
             }
             else
             {
-                SIMSStartLog::addLogFromStartTable(startTable, strfmt("Line %1 %2 processed", startTable.Description, startTable.SortOrder));
-                info(strfmt("Line %1 %2 processed", startTable.Description, startTable.SortOrder));
+                SIMSStartLog::addLogFromStartTable(startTable, strfmt("@SIMSStartProcessing:LineProcessed", startTable.Description, startTable.SortOrder));
+                info(strfmt("@SIMSStartProcessing:LineProcessed", startTable.Description, startTable.SortOrder));
             }
         }
         SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:ProcessedLines", cnt));
@@ -133,7 +139,7 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
         #OCCRetryCount
         if (! this.validate())
         {
-            throw error("Error during validsation");
+            throw error("@SIMSStartProcessing:ErrorDuringValidation");
         }
 
         this.update();
@@ -188,9 +194,6 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
 				<Source><![CDATA[
     public boolean validate(Object _calledFrom = null)
     {
-        if (false)
-            return checkFailed("");
-
         return true;
     }
 
@@ -209,9 +212,13 @@ class SIMSStartActionServerRunThread extends RunBaseBatch implements BatchRetrya
 			<Method>
 				<Name>description</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Class description
+    /// </summary>
+    /// <returns>description for class</returns>
     static ClassDescription description()
     {
-        return "AOS Start task processor";
+        return "@SIMSStartProcessing:AOSStartTaskProcessor";
     }
 
 ]]></Source>

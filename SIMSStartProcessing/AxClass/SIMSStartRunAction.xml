@@ -98,6 +98,10 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
 			<Method>
 				<Name>update</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Base update method should be over in the SQL and Class run
+    /// </summary>
+    /// <returns>true if has errors</returns>
     protected boolean update()
     {
         return true;
@@ -113,7 +117,7 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         #OCCRetryCount
         if (! this.validate())
         {
-            throw error("During process line we have error");
+            throw error("@SIMSStartProcessing:DuringProcessLineWeHaveError");
         }
             
 
@@ -124,7 +128,7 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         catch
         {
             this.parmHasErrors(true);
-            this.parmResultMessage(strFmt("%1 %2", this.parmResultMessage(), "Process raise the error"));
+            this.parmResultMessage(strFmt("@SIMSStartProcessing:Perc1Perc2", this.parmResultMessage(), "@SIMSStartProcessing:ProcessRaiseTheError"));
         }
         this.saveHistory();
     }
@@ -134,6 +138,9 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
 			<Method>
 				<Name>saveHistory</Name>
 				<Source><![CDATA[
+    /// <summary>
+    /// Save history for call
+    /// </summary>
     protected void saveHistory()
     {
         SIMSStartTrans  startTrans;
@@ -141,20 +148,19 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         ttsbegin;
         startTrans.TableRefId   = this.parmActionRecId();
         startTrans.RunResult    = this.parmResultMessage();
-        startTrans.TransDate    = systemDateGet();
+        startTrans.TransDate    = DateTimeUtil::getSystemDate(DateTimeUtil::getUserPreferredTimeZone());
         startTrans.HasError     = this.parmHasErrors();
         startTrans.insert();
 
-        
 
         SIMSStartTable  startTable = SIMSStartTable::find(this.parmActionRecId(), true);
         if (startTable)
         {
             startTable.HasError = this.parmHasErrors();
-            startTable.ExecutedOn = systemDateGet();
+            startTable.ExecutedOn = DateTimeUtil::getSystemDate(DateTimeUtil::getUserPreferredTimeZone());
             startTable.update();
         }
-        SIMSStartLog::addLogFromStartTable(startTable, strFmt("Has error %1, message %2", this.parmHasErrors(), this.parmResultMessage()));
+        SIMSStartLog::addLogFromStartTable(startTable, strFmt("@SIMSStartProcessing:HasErrorMessage", this.parmHasErrors(), this.parmResultMessage()));
         ttscommit;
     }
 
@@ -199,7 +205,15 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
         SIMSStartTable      startTable = SIMSStartTable::find(this.parmActionRecId());
         if (!startTable.checkIfLineCanRun())
         {
-            return checkFailed(strFmt("Current URL is %1, tempale URL is %2 not follow fot main URL or line is not approved", startTable.getEnvUrl(), startTable.URLTemplate));
+            if (!(startTable.getEnvUrl() like startTable.URLTemplate))
+            {
+                return checkFailed("@SIMSStartProcessing:URLOfEnvNotSame");
+            }
+
+            if (!startTable.ApprovedBy)
+            {
+                return checkFailed("@SIMSStartProcessing:LineShouldBeApprovedToExecute");
+            }
         }
             
 
@@ -237,10 +251,13 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
 			<Method>
 				<Name>description</Name>
 				<Source><![CDATA[
-    // Here goes a description of the class
+    /// <summary>
+    /// Description for class
+    /// </summary>
+    /// <returns>class description</returns>
     static ClassDescription description()
     {
-        return "Run startup action";
+        return "@SIMSStartProcessing:RunStartupAction";
     }
 
 ]]></Source>

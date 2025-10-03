@@ -23,7 +23,7 @@ public class SIMSStartActionRunClassSelectCustTable_DEMO implements SIMSStartAct
         CustTable   custTable;
         select firstonly firstfast crosscompany custTable
             ;
-        message = strFmt('Cust table Acount %1, name %2', custTable.accountNum, custTable.name());
+        message = strFmt("@SIMSStartProcessing:CustTableAccountName", custTable.accountNum, custTable.name());
     }
 
 ]]></Source>

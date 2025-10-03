@@ -1,26 +1,61 @@
-﻿ApprovedBy=Approved by
+﻿AdminMode=ADMIN MODE: %1
+AdminNotOwner=Admin or NOT owner (created this task) can approve the line
+AffectedToTheRows=Affected to the %1 rows
+AosRunProcess=AOS run process
+AosStartFunctionality=AOS start functionality
+AOSStartSubAdmins=AOS Start sub admins
+AOSStartSubAdminTableDevDoc=Table store information for power users who can approve the scripts
+ ;{locked}
+AOSStartTaskProcessor=AOS Start task processor
+AosSubAdmin=AOS SubAdmin
+ApprovedBy=Approved by
+ApprovedByCurUserId=Approved by CurUserId = %1
+AreYouSureYouWantToProceed=Are you sure you want to proceed?
+ClassRaiseTheIssue=class %1 raise the issue
+CommonLog=Common log
 ContinueOnError=Continue on error
+CurrentURLNotApproved=Current URL is %1, template URL is %2 not follow for main URL or line is not approved
+CustTableAccountName=Cust table Account %1, name %2
 DeleteLine=Delete line
 DeleteThisLineAfterTunTheScript=Delete this line after tun the script
+DuringProcessLineWeHaveError=During process line we have error
 EnvironmentTemplateUrl=Environment template url
 EnvURLTemplate=Env URL template
+ErrorDuringValidation=Error during validation
 ExecutedOn=Executed on
 HasError=Has Error
+HasErrorMessage=Has error %1, message %2
+HistoryOfAOSStartRun=History of AOS start run
+HistoryOfTransactions=History of transactions
+IsUserAdminOrSubadminCheck=User should be Admin or SubAdmin to change the data
+IsUserEnabledForApprove=Is user enabled for approve
 LastRunRaiseTheError=Last run raise the error
+LineHasError=Line %1 %2 has error
+LineProcessed=Line %1 %2 processed
+LineShouldBeApprovedToExecute=Line should be approved to execute
+Log=Log
 NewLabel0=Label files created on 09/29/2025 20:53:59 for label file Id SIMSStartProcessing and language en-US
  ;Label file comment - see above label
+NewLabel1=Has error
 OrderToRunTheSteps=Order to run the steps
+Perc1Perc2=%1 %2
 ProcessedLines=%1 processed lines
+ProcessRaiseTheError=Process raise the error
 RecordProcessing=Record processing
 RunBaseBasedClassname=Run base based classname
+RunOn=Run!
 RunOnStart=Run on start
+RunStartupAction=Run startup action
 ShouldBeRunAllNextSteps=Should be run all next steps
 ShouldTheLineRunOnStart=Should the line run on start
 ShouldThisTaskStartAllTimeOrOnce=Should this task start all time or once?
+SIMSCommonLog=SIMS Common log
+SimsStartLog=SIMS Start log
 SIMSStartTableCaption=AOS start processing table
 SIMSStartTableDevDoc=Table for store data to run when AOS is starting
  ;{locked}
 SordOrder=Sord Order
+SqlScript=SQL script
 SqlScriptToRun=Sql script to run
 SqlScriptToRunOnThisStep=Sql script to run on this step
 StartAllTimeExecutedOnSkipedRecordProcessing=Start all time = %1, Executed on = %2, skipped record processing
@@ -28,5 +63,25 @@ StartEachTime=Start each time
 StartProcessing=Start processing
 StartType=Start type
 StopProcessingForContinueOnError=Stop processing for Continue on error = NO! for record %1 %2
+SubAdmin=Sub admin
+SubAdminsDeleteTableRecord=SubAdmins record with UserId %1 deleted by %2
+SubAdminsInsertTableRecord=SubAdmins record with UserId %1 added by %2
+SubAdminsUpdateTableRecord=SubAdmins record with UserId %1 updated to %2 by %3
+TableStoreCommonLogForAllActions=Table store common log for all actions
+ ;{locked}
+TaskType=Task type
+ThisLineHasError=This line has error
+URLDescriptionMessage=URL %1, Description %2, message %3
+URLOfEnvNotSame=URL of env not same like template URL
 URLTemplateNotLikeURLSkipedRecordProcessing=URL template %1 not like URL %2, skipped record processing
+UserAllowedToApproveTheTasks=User allowed to approve the tasks
 WhenThisLineWasExecutedAtTime=When this line was executed at time
+AOSStartProcessingUser=AOS start processing user
+AOSStartProcessingPrivilege=AOS Start processing privilege
+AOSStartProcessingDuty=AOS Start processing Duty
+SISMAOTRunProcessing=SISM AOT Run processing
+RunDetailsSQL=Run details SQL
+PasteSQLHere=Paste SQL here
+RunClass=Run Class
+SIMSStartTransDevDoc=Table store log for each run operation
+;{locked}

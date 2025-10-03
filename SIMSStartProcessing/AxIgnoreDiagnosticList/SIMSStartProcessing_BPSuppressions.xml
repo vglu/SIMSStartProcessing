@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IgnoreDiagnostics>
+  <Name>SIMSStartProcessing_BPSuppressions</Name>
+  <Items>
+    <Diagnostic>
+      <DiagnosticType>BestPractices</DiagnosticType>
+      <Severity>Warning</Severity>
+      <Path>dynamics://AxClass/SIMSStartRunActionSQL</Path>
+      <Moniker></Moniker>
+      <Message>SQL code found in method update	SIMSStartProcessing</Message>
+      <Justification>This is part of processing</Justification>
+    </Diagnostic>
+  </Items>
+</IgnoreDiagnostics>

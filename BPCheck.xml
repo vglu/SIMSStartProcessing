@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Diagnostics
+  GenerationTime="2025-10-03T05:43:00.2210257+00:00">
+  <Items>
+    <Diagnostic>
+      <DiagnosticType>VisualStudioIntegration</DiagnosticType>
+      <Severity>Informational</Severity>
+      <Path>C:\AOSService\PackagesLocalDirectory\Bin\xppbp.exe</Path>
+      <Moniker>C:\AOSService\PackagesLocalDirectory\Bin\xppbp.exe -referenceFolder="C:\AOSService\PackagesLocalDirectory" -all -metadata="C:\AOSService\PackagesLocalDirectory" -compilerMetadata="C:\AOSService\PackagesLocalDirectory" -module="SIMSStartProcessing" -model="SIMSStartProcessing" -xmlLog="C:\AOSService\PackagesLocalDirectory\SIMSStartProcessing\BPCheck.SIMSStartProcessing.xml" </Moniker>
+      <Message>C:\AOSService\PackagesLocalDirectory\Bin\xppbp.exe -referenceFolder="C:\AOSService\PackagesLocalDirectory" -all -metadata="C:\AOSService\PackagesLocalDirectory" -compilerMetadata="C:\AOSService\PackagesLocalDirectory" -module="SIMSStartProcessing" -model="SIMSStartProcessing" -xmlLog="C:\AOSService\PackagesLocalDirectory\SIMSStartProcessing\BPCheck.SIMSStartProcessing.xml" </Message>
+    </Diagnostic>
+  </Items>
+  <Aliases />
+</Diagnostics>

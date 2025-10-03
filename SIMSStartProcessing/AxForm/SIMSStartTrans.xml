@@ -12,6 +12,20 @@ public class SIMSStartTrans extends FormRun
 }
 ]]></Source>
 			</Method>
+			<Method>
+				<Name>init</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public void init()
+    {
+        super();
+        SIMSStartTrans_ds.allowDelete(curUserId() == 'Admin' || SIMSStartSubAdmins::isUserCanApproveTheLines());
+    }
+
+]]></Source>
+			</Method>
 		</Methods>
 		<DataSources xmlns="" />
 		<DataControls xmlns="" />
@@ -67,7 +81,7 @@ public class SIMSStartTrans extends FormRun
 		</AxFormDataSource>
 	</DataSources>
 	<Design>
-		<Caption xmlns="">History of AOS start run</Caption>
+		<Caption xmlns="">@SIMSStartProcessing:HistoryOfAOSStartRun</Caption>
 		<Pattern xmlns="">SimpleList</Pattern>
 		<PatternVersion xmlns="">1.1</PatternVersion>
 		<Style xmlns="">SimpleList</Style>

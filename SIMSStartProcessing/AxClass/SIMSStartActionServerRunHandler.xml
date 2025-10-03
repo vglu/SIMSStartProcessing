@@ -3,6 +3,9 @@
 	<Name>SIMSStartActionServerRunHandler</Name>
 	<SourceCode>
 		<Declaration><![CDATA[
+/// <summary>
+/// Subscribe for AOS start processing
+/// </summary>
 public class SIMSStartActionServerRunHandler
 {
 }
