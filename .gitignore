@@ -8,3 +8,6 @@ Projects/SIMSStartProcessing/obj/
 BuildModelResult.err.xml
 BuildModelResult.log
 BuildModelResult.xml
+SIMSStartProcessing.xref
+BPCheck.xml
+CompileLabels.xml
