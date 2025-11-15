@@ -85,3 +85,4 @@ PasteSQLHere=Paste SQL here
 RunClass=Run Class
 SIMSStartTransDevDoc=Table store log for each run operation
 ;{locked}
+ClassRunSucsessfully=Class %1 run sucsessfully

@@ -82,6 +82,11 @@
       <Name>SIMSStartRunActionClass</Name>
       <Link>Classes\SIMSStartRunActionClass</Link>
     </Content>
+    <Content Include="AxClass\SIMSStartRunActionRunBaseClass">
+      <SubType>Content</SubType>
+      <Name>SIMSStartRunActionRunBaseClass</Name>
+      <Link>Classes\SIMSStartRunActionRunBaseClass</Link>
+    </Content>
     <Content Include="AxClass\SIMSStartRunActionSQL">
       <SubType>Content</SubType>
       <Name>SIMSStartRunActionSQL</Name>

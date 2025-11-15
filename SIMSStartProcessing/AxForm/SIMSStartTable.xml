@@ -21,8 +21,7 @@ public class SIMSStartTable extends FormRun
     public void enableControlAccess()
     {
         SIMSStartTable_ds.object(fieldNum(SIMSStartTable, SQL)).allowEdit(SIMSStartTable.TaskType == SIMSStartTaskType::SQL);
-        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, AOTClassName)).allowEdit(SIMSStartTable.TaskType == SIMSStartTaskType::Class);
-
+        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, AOTClassName)).allowEdit(SIMSStartTable.TaskType == SIMSStartTaskType::Class || SIMSStartTable.TaskType == SIMSStartTaskType::RunBase);
     }
 
 ]]></Source>
