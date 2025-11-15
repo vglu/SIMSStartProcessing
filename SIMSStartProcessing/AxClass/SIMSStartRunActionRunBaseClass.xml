@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartRunActionRunBaseClass</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Run runbase class action for AOT class
+/// </summary>
+public class SIMSStartRunActionRunBaseClass extends SIMSStartRunActionClass
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// update method
+    /// </summary>
+    /// <returns>if processing finish with error</returns>
+    protected boolean update()
+    {
+        
+        SIMSStartTable      startTable  = SIMSStartTable::find(this.parmActionRecId());
+        SysRunable          runClass    = new ClassFactory().createClass(className2Id(startTable.AOTClassName));
+        boolean             hasErrorsRet= true;
+
+        try
+        {
+            runClass.run();
+            this.parmResultMessage(strFmt("@SIMSStartProcessing:ClassRunSucsessfully", startTable.AOTClassName));
+            hasErrorsRet = false;
+        }
+        catch
+        {
+            this.parmResultMessage(strFmt("@SIMSStartProcessing:ClassRaiseTheIssue", startTable.AOTClassName));
+        }
+        return hasErrorsRet;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

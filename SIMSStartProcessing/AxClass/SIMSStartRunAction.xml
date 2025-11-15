@@ -234,6 +234,9 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
             case SIMSStartTaskType::Class:
                 startRunAction = new SIMSStartRunActionClass();
                 break;
+            case SIMSStartTaskType::RunBase:
+                startRunAction = new SIMSStartRunActionRunBaseClass();
+                break;
             case SIMSStartTaskType::SQL:
                 startRunAction = new SIMSStartRunActionSQL();
                 break;

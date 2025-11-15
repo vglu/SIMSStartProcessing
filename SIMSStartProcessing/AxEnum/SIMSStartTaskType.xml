@@ -13,6 +13,11 @@
 			<Label>@SYS40152</Label>
 			<Value>1</Value>
 		</AxEnumValue>
+		<AxEnumValue>
+			<Name>RunBase</Name>
+			<Label>@SYS72420</Label>
+			<Value>2</Value>
+		</AxEnumValue>
 	</EnumValues>
 	<IsExtensible>true</IsExtensible>
 </AxEnum>
