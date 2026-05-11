@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxService xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartSqlExecutionService</Name>
+	<Class>SIMSStartSqlExecutionService</Class>
+	<ExternalName>SIMSStartSqlExecutionService</ExternalName>
+	<ServiceOperations>
+		<AxServiceOperation>
+			<Name>executeSql</Name>
+			<Method>executeSql</Method>
+		</AxServiceOperation>
+	</ServiceOperations>
+</AxService>

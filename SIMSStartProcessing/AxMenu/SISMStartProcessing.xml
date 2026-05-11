@@ -8,5 +8,10 @@
 			<Name>SIMSStartTable</Name>
 			<MenuItemName>SIMSStartTable</MenuItemName>
 		</AxMenuElement>
+		<AxMenuElement xmlns=""
+			i:type="AxMenuElementMenuItem">
+			<Name>SIMSStartParameters</Name>
+			<MenuItemName>SIMSStartParameters</MenuItemName>
+		</AxMenuElement>
 	</Elements>
 </AxMenu>

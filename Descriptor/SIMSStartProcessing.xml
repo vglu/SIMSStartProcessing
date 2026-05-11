@@ -2,7 +2,7 @@
 <AxModelInfo xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
 	<AppliedUpdates xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
 	<Customization>Allow</Customization>
-	<Description>Model allow to run processing once AOS is start. Can be useful for run once during database restore from PROD foe example</Description>
+	<Description>Runs approved startup steps when AOS starts (SQL, X++ class/RunBase, outbound REST) with optional inbound JSON SQL service for sandbox orchestration (e.g. Logic Apps). See README.md and CHANGELOG.md.</Description>
 	<DisplayName>SIMSStartProcessing</DisplayName>
 	<Id>896000761</Id>
 	<InternalsVisibleTo xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
@@ -24,5 +24,5 @@
 	<VersionBuild>0</VersionBuild>
 	<VersionMajor>1</VersionMajor>
 	<VersionMinor>0</VersionMinor>
-	<VersionRevision>2</VersionRevision>
+	<VersionRevision>7</VersionRevision>
 </AxModelInfo>

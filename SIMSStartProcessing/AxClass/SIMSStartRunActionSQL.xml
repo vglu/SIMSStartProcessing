@@ -22,37 +22,12 @@ public class SIMSStartRunActionSQL extends SIMSStartRunAction
     {
         SIMSStartTable      startTable  = SIMSStartTable::find(this.parmActionRecId());
         str                 sqlQuery    = startTable.SQL;
-        boolean             hasErrorsRet   = true;
+        boolean             hasErrorsRet = true;
         int                 rowsAffected;
-        Connection          connection = new Connection();
-        Statement           statement = null;
-        System.Exception    ex;
-        
-        try
-        {
-            statement = connection.createStatement();
 
-            var ssep = new SqlStatementExecutePermission(sqlQuery);
-            ssep.assert();
-            rowsAffected = statement.executeUpdateWithParameters(sqlQuery, null);
-            //rowsAffected = statement.executeUpdate(sqlQuery);
-            CodeAccessPermission::revertAssert();
-            this.parmResultMessage(strFmt("@SIMSStartProcessing:AffectedToTheRows", rowsAffected));
-            hasErrorsRet = false;
-        }
-        catch(ex)
-        {
-            this.parmResultMessage(ex.Message);
-            throw ex;
-        }
-        finally
-        {
-            if (statement != null)
-            {
-                statement.close();
-            }
-            connection.finalize();
-        }
+        rowsAffected = SIMSStartSqlRunner::executeNonQuery(sqlQuery);
+        this.parmResultMessage(strFmt("@SIMSStartProcessing:AffectedToTheRows", rowsAffected));
+        hasErrorsRet = false;
         return hasErrorsRet;
     }
 

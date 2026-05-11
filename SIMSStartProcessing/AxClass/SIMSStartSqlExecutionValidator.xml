@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartSqlExecutionValidator</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Guards inbound SQL service calls by environment pattern.
+/// </summary>
+public final class SIMSStartSqlExecutionValidator
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>currentEnvironmentFqdn</Name>
+				<Source><![CDATA[
+    public static str currentEnvironmentFqdn()
+    {
+        var applicationEnvironment = Microsoft.Dynamics.ApplicationPlatform.Environment.EnvironmentFactory::GetApplicationEnvironment();
+
+        return applicationEnvironment.Infrastructure.FullyQualifiedDomainName;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>validateEnvironmentMessage</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Returns empty string if the active host matches the configured pattern; otherwise an error message label or formatted text.
+    /// </summary>
+    public static str validateEnvironmentMessage(SIMSStartParameters _serviceParameters)
+    {
+        str envUrl = SIMSStartSqlExecutionValidator::currentEnvironmentFqdn();
+        str pattern = strLRTrim(_serviceParameters.AllowedServiceEnvironmentPattern);
+
+        if (!strLen(pattern))
+        {
+            return "@SIMSStartProcessing:SqlExecServiceEnvPatternMissing";
+        }
+
+        if (!(envUrl like pattern))
+        {
+            return strFmt("@SIMSStartProcessing:SqlExecServiceEnvMismatch", envUrl, pattern);
+        }
+
+        return '';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>validateCatalogLine</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Validates a startup-table line for catalog SQL execution via the service.
+    /// </summary>
+    public static str validateCatalogLine(SIMSStartTable _line)
+    {
+        if (!_line.RecId)
+        {
+            return "@SIMSStartProcessing:SqlExecServiceLineNotFound";
+        }
+
+        if (_line.TaskType != SIMSStartTaskType::SQL)
+        {
+            return "@SIMSStartProcessing:SqlExecServiceLineNotSql";
+        }
+
+        if (!_line.checkIfLineCanRun())
+        {
+            return "@SIMSStartProcessing:SqlExecServiceLineNotRunnable";
+        }
+
+        return '';
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

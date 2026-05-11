@@ -215,7 +215,14 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
                 return checkFailed("@SIMSStartProcessing:LineShouldBeApprovedToExecute");
             }
         }
-            
+
+        if (startTable.TaskType == SIMSStartTaskType::RestApi)
+        {
+            if (!strLen(strLRTrim(startTable.RestRequestUrl)))
+            {
+                return checkFailed("@SIMSStartProcessing:RestUrlRequired");
+            }
+        }
 
         return true;
     }
@@ -239,6 +246,9 @@ public class SIMSStartRunAction  extends RunBaseBatch implements BatchRetryable
                 break;
             case SIMSStartTaskType::SQL:
                 startRunAction = new SIMSStartRunActionSQL();
+                break;
+            case SIMSStartTaskType::RestApi:
+                startRunAction = new SIMSStartRunActionRest();
                 break;
             default: 
                 startRunAction = new SIMSStartRunAction();

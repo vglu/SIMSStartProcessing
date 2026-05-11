@@ -34,6 +34,8 @@ public class SIMSStartTable extends common
     {
         super();
         this.URLTemplate = this.getEnvUrl();
+        this.RestHttpMethod = SIMSStartHttpRequestMethod::Get;
+        this.RestTimeoutSeconds = 100;
     }
 
 ]]></Source>
@@ -207,6 +209,27 @@ public class SIMSStartTable extends common
 				</AxTableFieldGroupField>
 			</Fields>
 		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>RestApi</Name>
+			<Label>@SIMSStartProcessing:RestApiFieldGroup</Label>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>RestHttpMethod</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RestRequestUrl</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RestTimeoutSeconds</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RestRequestHeaders</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>RestRequestBody</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
 	</FieldGroups>
 	<Fields>
 		<AxTableField xmlns=""
@@ -313,6 +336,41 @@ public class SIMSStartTable extends common
 			<ExtendedDataType>UserId</ExtendedDataType>
 			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
 			<Label>@SYS3492</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>RestHttpMethod</Name>
+			<EnumType>SIMSStartHttpRequestMethod</EnumType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>RestRequestUrl</Name>
+			<HelpText>@SIMSStartProcessing:RestRequestUrlHelp</HelpText>
+			<Label>@SIMSStartProcessing:RestRequestUrl</Label>
+			<StringSize>255</StringSize>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>RestRequestBody</Name>
+			<ExtendedDataType>Str1260</ExtendedDataType>
+			<HelpText>@SIMSStartProcessing:RestRequestBodyHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SIMSStartProcessing:RestRequestBody</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>RestRequestHeaders</Name>
+			<ExtendedDataType>Str1260</ExtendedDataType>
+			<HelpText>@SIMSStartProcessing:RestRequestHeadersHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SIMSStartProcessing:RestRequestHeaders</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>RestTimeoutSeconds</Name>
+			<HelpText>@SIMSStartProcessing:RestTimeoutSecondsHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SIMSStartProcessing:RestTimeoutSeconds</Label>
 		</AxTableField>
 	</Fields>
 	<FullTextIndexes />

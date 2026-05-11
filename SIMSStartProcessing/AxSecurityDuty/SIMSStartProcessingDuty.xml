@@ -6,5 +6,8 @@
 		<AxSecurityPrivilegeReference>
 			<Name>SIMSStartProcessingPrivilege</Name>
 		</AxSecurityPrivilegeReference>
+		<AxSecurityPrivilegeReference>
+			<Name>SIMSStartInboundSqlPrivilege</Name>
+		</AxSecurityPrivilegeReference>
 	</Privileges>
 </AxSecurityDuty>

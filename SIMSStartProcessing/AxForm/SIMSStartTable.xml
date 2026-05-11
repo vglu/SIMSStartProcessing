@@ -20,8 +20,15 @@ public class SIMSStartTable extends FormRun
     /// </summary>
     public void enableControlAccess()
     {
+        boolean restApi = SIMSStartTable.TaskType == SIMSStartTaskType::RestApi;
+
         SIMSStartTable_ds.object(fieldNum(SIMSStartTable, SQL)).allowEdit(SIMSStartTable.TaskType == SIMSStartTaskType::SQL);
         SIMSStartTable_ds.object(fieldNum(SIMSStartTable, AOTClassName)).allowEdit(SIMSStartTable.TaskType == SIMSStartTaskType::Class || SIMSStartTable.TaskType == SIMSStartTaskType::RunBase);
+        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, RestHttpMethod)).allowEdit(restApi);
+        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, RestRequestUrl)).allowEdit(restApi);
+        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, RestRequestBody)).allowEdit(restApi);
+        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, RestRequestHeaders)).allowEdit(restApi);
+        SIMSStartTable_ds.object(fieldNum(SIMSStartTable, RestTimeoutSeconds)).allowEdit(restApi);
     }
 
 ]]></Source>
@@ -190,6 +197,21 @@ public class SIMSStartTable extends FormRun
 				</AxFormDataSourceField>
 				<AxFormDataSourceField>
 					<DataField>URLTemplate</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RestHttpMethod</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RestRequestUrl</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RestRequestBody</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RestRequestHeaders</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RestTimeoutSeconds</DataField>
 				</AxFormDataSourceField>
 			</Fields>
 			<ReferencedDataSources />
@@ -623,6 +645,121 @@ public class SIMSStartTable extends FormRun
 										</Controls>
 										<ColumnsMode>Fill</ColumnsMode>
 										<Caption>@SIMSStartProcessing:RunClass</Caption>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormTabPageControl">
+										<Name>RunDetailsRest</Name>
+										<Pattern>FieldsFieldGroups</Pattern>
+										<PatternVersion>1.1</PatternVersion>
+										<Type>TabPage</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<Controls>
+											<AxFormControl xmlns=""
+												i:type="AxFormGroupControl">
+												<Name>RestApiGroup</Name>
+												<Type>Group</Type>
+												<FormControlExtension
+													i:nil="true" />
+												<Controls>
+													<AxFormControl xmlns=""
+														i:type="AxFormGroupControl">
+														<Name>RestAPICommonGroup</Name>
+														<Type>Group</Type>
+														<FormControlExtension
+															i:nil="true" />
+														<Controls>
+															<AxFormControl xmlns=""
+																i:type="AxFormGroupControl">
+																<Name>RestApiCommonTopGroup</Name>
+																<Type>Group</Type>
+																<FormControlExtension
+																	i:nil="true" />
+																<Controls>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormComboBoxControl">
+																		<Name>RestHttpMethod</Name>
+																		<Type>ComboBox</Type>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>RestHttpMethod</DataField>
+																		<DataSource>SIMSStartTable</DataSource>
+																		<Items />
+																	</AxFormControl>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormStringControl">
+																		<Name>RestRequestUrl</Name>
+																		<Type>String</Type>
+																		<WidthMode>SizeToAvailable</WidthMode>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>RestRequestUrl</DataField>
+																		<DataSource>SIMSStartTable</DataSource>
+																		<DisplayHeight>1</DisplayHeight>
+																		<DisplayLength>80</DisplayLength>
+																	</AxFormControl>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormIntegerControl">
+																		<Name>RestTimeoutSeconds</Name>
+																		<Type>Integer</Type>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>RestTimeoutSeconds</DataField>
+																		<DataSource>SIMSStartTable</DataSource>
+																	</AxFormControl>
+																</Controls>
+															</AxFormControl>
+															<AxFormControl xmlns=""
+																i:type="AxFormGroupControl">
+																<Name>RestAPICommonBottomGroup</Name>
+																<HeightMode>SizeToAvailable</HeightMode>
+																<Type>Group</Type>
+																<WidthMode>Auto</WidthMode>
+																<FormControlExtension
+																	i:nil="true" />
+																<Controls>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormStringControl">
+																		<Name>RestRequestHeaders</Name>
+																		<Type>String</Type>
+																		<WidthMode>SizeToAvailable</WidthMode>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>RestRequestHeaders</DataField>
+																		<DataSource>SIMSStartTable</DataSource>
+																		<DisplayHeight>60</DisplayHeight>
+																		<DisplayLength>200</DisplayLength>
+																		<DisplayLengthMode>Fixed</DisplayLengthMode>
+																		<MultiLine>Yes</MultiLine>
+																		<Text>@SIMSStartProcessing:RestRequestHeadersPlaceholder</Text>
+																	</AxFormControl>
+																	<AxFormControl xmlns=""
+																		i:type="AxFormStringControl">
+																		<Name>RestRequestBody</Name>
+																		<Type>String</Type>
+																		<WidthMode>SizeToAvailable</WidthMode>
+																		<FormControlExtension
+																			i:nil="true" />
+																		<DataField>RestRequestBody</DataField>
+																		<DataSource>SIMSStartTable</DataSource>
+																		<DisplayHeight>200</DisplayHeight>
+																		<DisplayLength>200</DisplayLength>
+																		<DisplayLengthMode>Fixed</DisplayLengthMode>
+																		<MultiLine>Yes</MultiLine>
+																		<Text>@SIMSStartProcessing:RestRequestBodyPlaceholder</Text>
+																	</AxFormControl>
+																</Controls>
+																<Columns>2</Columns>
+															</AxFormControl>
+														</Controls>
+													</AxFormControl>
+												</Controls>
+												<DataSource>SIMSStartTable</DataSource>
+											</AxFormControl>
+										</Controls>
+										<ColumnsMode>Fill</ColumnsMode>
+										<Caption>@SIMSStartProcessing:RunDetailsRest</Caption>
+										<DataSource>SIMSStartTable</DataSource>
 									</AxFormControl>
 								</Controls>
 								<AlignChild>No</AlignChild>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartRunActionRest</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Executes an outbound REST HTTP call configured on <c>SIMSStartTable</c>.
+/// </summary>
+public class SIMSStartRunActionRest extends SIMSStartRunAction
+{
+    #define.MaxRestLogLen(2000)
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>update</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Sends the HTTP request and records the response.
+    /// </summary>
+    /// <returns>true if the step finished with an error; false on success.</returns>
+    protected boolean update()
+    {
+        SIMSStartTable                      startTable = SIMSStartTable::find(this.parmActionRecId());
+        str                                 url = strLRTrim(startTable.RestRequestUrl);
+        int                                 timeoutSec = startTable.RestTimeoutSeconds > 0 ? startTable.RestTimeoutSeconds : 100;
+        boolean                             hasErrorsRet = true;
+        System.Net.Http.HttpClient          httpClient;
+        System.Net.Http.HttpRequestMessage  request;
+        System.Net.Http.HttpResponseMessage response;
+        boolean                             httpClientCreated;
+        boolean                             requestCreated;
+        boolean                             responseCreated;
+        str                                 responseBody;
+        str                                 responseForLog;
+
+        try
+        {
+            httpClient = new System.Net.Http.HttpClient();
+            httpClientCreated = true;
+            httpClient.set_Timeout(System.TimeSpan::FromSeconds(timeoutSec));
+
+            request = new System.Net.Http.HttpRequestMessage();
+            requestCreated = true;
+            request.set_RequestUri(new System.Uri(url));
+            request.set_Method(this.resolveHttpMethod(startTable.RestHttpMethod));
+
+            if (startTable.RestRequestHeaders)
+            {
+                this.applyHeaders(request, startTable.RestRequestHeaders);
+            }
+
+            if (this.methodAllowsContent(startTable.RestHttpMethod) && strLen(strLRTrim(startTable.RestRequestBody)))
+            {
+                System.Net.Http.StringContent content = new System.Net.Http.StringContent(
+                    startTable.RestRequestBody,
+                    System.Text.Encoding::get_UTF8(),
+                    'application/json');
+                request.set_Content(content);
+            }
+
+            response = httpClient.SendAsync(request).GetAwaiter().GetResult();
+            responseCreated = true;
+
+            responseBody = response.get_Content().ReadAsStringAsync().GetAwaiter().GetResult();
+            responseForLog = this.truncateForLog(responseBody);
+
+            if (response.get_IsSuccessStatusCode())
+            {
+                this.parmResultMessage(strFmt("@SIMSStartProcessing:RestCallResultOk", System.Convert::ToInt32(response.get_StatusCode()), responseForLog));
+                hasErrorsRet = false;
+            }
+            else
+            {
+                str errMsg = strFmt("@SIMSStartProcessing:RestCallResultFailed", System.Convert::ToInt32(response.get_StatusCode()), responseForLog);
+                this.parmResultMessage(errMsg);
+                throw error(errMsg);
+            }
+        }
+        finally
+        {
+            if (responseCreated)
+            {
+                response.Dispose();
+            }
+            if (requestCreated)
+            {
+                request.Dispose();
+            }
+            if (httpClientCreated)
+            {
+                httpClient.Dispose();
+            }
+        }
+
+        return hasErrorsRet;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>truncateForLog</Name>
+				<Source><![CDATA[
+    private str truncateForLog(str _value)
+    {
+        if (strLen(_value) <= #MaxRestLogLen)
+        {
+            return _value;
+        }
+
+        return subStr(_value, 1, #MaxRestLogLen) + '...';
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>methodAllowsContent</Name>
+				<Source><![CDATA[
+    private boolean methodAllowsContent(SIMSStartHttpRequestMethod _method)
+    {
+        return _method == SIMSStartHttpRequestMethod::Post
+            || _method == SIMSStartHttpRequestMethod::Put
+            || _method == SIMSStartHttpRequestMethod::Patch;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>resolveHttpMethod</Name>
+				<Source><![CDATA[
+    private System.Net.Http.HttpMethod resolveHttpMethod(SIMSStartHttpRequestMethod _method)
+    {
+        switch (_method)
+        {
+            case SIMSStartHttpRequestMethod::Get:
+                return System.Net.Http.HttpMethod::Get;
+            case SIMSStartHttpRequestMethod::Post:
+                return System.Net.Http.HttpMethod::Post;
+            case SIMSStartHttpRequestMethod::Put:
+                return System.Net.Http.HttpMethod::Put;
+            case SIMSStartHttpRequestMethod::Patch:
+                return new System.Net.Http.HttpMethod("PATCH");
+            case SIMSStartHttpRequestMethod::Delete:
+                return System.Net.Http.HttpMethod::Delete;
+            default:
+                return System.Net.Http.HttpMethod::Get;
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>applyHeaders</Name>
+				<Source><![CDATA[
+    private void applyHeaders(System.Net.Http.HttpRequestMessage _request, str _headersRaw)
+    {
+        str remaining = _headersRaw;
+        System.Net.Http.Headers.HttpHeaders headers = _request.get_Headers();
+
+        while (strLen(strLRTrim(remaining)))
+        {
+            int pos = strFind(remaining, '\n', 1, strLen(remaining));
+            str line;
+
+            if (pos)
+            {
+                line = strLRTrim(subStr(remaining, 1, pos - 1));
+                remaining = subStr(remaining, pos + 1, strLen(remaining) - pos);
+            }
+            else
+            {
+                line = strLRTrim(remaining);
+                remaining = '';
+            }
+
+            if (!strLen(line))
+            {
+                continue;
+            }
+
+            int colonPos = strScan(line, ':', 1, strLen(line));
+            if (colonPos > 1)
+            {
+                str headerName = strLRTrim(subStr(line, 1, colonPos - 1));
+                str headerValue = strLRTrim(subStr(line, colonPos + 1, strLen(line) - colonPos));
+                if (strLen(headerName))
+                {
+                    headers.TryAddWithoutValidation(headerName, headerValue);
+                }
+            }
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

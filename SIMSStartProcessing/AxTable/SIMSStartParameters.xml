@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartParameters</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Singleton-style parameters for inbound SQL execution service (environment guard, ad-hoc SQL).
+/// </summary>
+public class SIMSStartParameters extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>initValue</Name>
+				<Source><![CDATA[
+    public void initValue()
+    {
+        super();
+        this.AllowAdHocSqlFromService = NoYes::No;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Returns the first (and only) parameters row, if present.
+    /// </summary>
+    public static SIMSStartParameters find(boolean _forupdate = false)
+    {
+        SIMSStartParameters parameters;
+
+        parameters.selectForUpdate(_forupdate);
+        select firstonly parameters;
+
+        return parameters;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<DeveloperDocumentation>@SIMSStartProcessing:SIMSStartParametersDevDoc</DeveloperDocumentation>
+	<FormRef>SIMSStartParameters</FormRef>
+	<Label>@SIMSStartProcessing:SIMSStartParametersCaption</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TableGroup>Parameter</TableGroup>
+	<TitleField1>AllowedServiceEnvironmentPattern</TitleField1>
+	<AllowRowVersionChangeTracking>Yes</AllowRowVersionChangeTracking>
+	<CacheLookup>Found</CacheLookup>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>AllowedServiceEnvironmentPattern</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>AllowAdHocSqlFromService</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>General</Name>
+			<Label>@SYS81043</Label>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>AllowedServiceEnvironmentPattern</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>AllowAdHocSqlFromService</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>AllowedServiceEnvironmentPattern</Name>
+			<ExtendedDataType>Range</ExtendedDataType>
+			<HelpText>@SIMSStartProcessing:AllowedServiceEnvironmentPatternHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SIMSStartProcessing:AllowedServiceEnvironmentPattern</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldEnum">
+			<Name>AllowAdHocSqlFromService</Name>
+			<ExtendedDataType>NoYesId</ExtendedDataType>
+			<HelpText>@SIMSStartProcessing:AllowAdHocSqlFromServiceHelp</HelpText>
+			<IgnoreEDTRelation>Yes</IgnoreEDTRelation>
+			<Label>@SIMSStartProcessing:AllowAdHocSqlFromService</Label>
+			<EnumType>NoYes</EnumType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes />
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

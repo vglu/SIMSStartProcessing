@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartSqlExecuteRequestContract</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// JSON contract for <c>SIMSStartSqlExecutionService.executeSql</c>.
+/// Provide either <c>LineRecId</c> (catalog SQL line) or ad-hoc <c>SqlScript</c> when enabled.
+/// </summary>
+[DataContractAttribute]
+public class SIMSStartSqlExecuteRequestContract
+{
+    RefRecId    lineRecId;
+    str         sqlScript;
+    str         correlationId;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmLineRecId</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('LineRecId')]
+    public RefRecId parmLineRecId(RefRecId _lineRecId = lineRecId)
+    {
+        lineRecId = _lineRecId;
+        return lineRecId;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmSqlScript</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('SqlScript')]
+    public str parmSqlScript(str _sqlScript = sqlScript)
+    {
+        sqlScript = _sqlScript;
+        return sqlScript;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmCorrelationId</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('CorrelationId')]
+    public str parmCorrelationId(str _correlationId = correlationId)
+    {
+        correlationId = _correlationId;
+        return correlationId;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
