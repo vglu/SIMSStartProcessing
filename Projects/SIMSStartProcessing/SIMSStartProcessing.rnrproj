@@ -44,6 +44,8 @@
     <Folder Include="Security Duties\" />
     <Folder Include="Security Privileges\" />
     <Folder Include="Security Roles\" />
+    <Folder Include="Service Groups\" />
+    <Folder Include="Services\" />
     <Folder Include="Tables\" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +84,11 @@
       <Name>SIMSStartRunActionClass</Name>
       <Link>Classes\SIMSStartRunActionClass</Link>
     </Content>
+    <Content Include="AxClass\SIMSStartRunActionRest">
+      <SubType>Content</SubType>
+      <Name>SIMSStartRunActionRest</Name>
+      <Link>Classes\SIMSStartRunActionRest</Link>
+    </Content>
     <Content Include="AxClass\SIMSStartRunActionRunBaseClass">
       <SubType>Content</SubType>
       <Name>SIMSStartRunActionRunBaseClass</Name>
@@ -91,6 +98,31 @@
       <SubType>Content</SubType>
       <Name>SIMSStartRunActionSQL</Name>
       <Link>Classes\SIMSStartRunActionSQL</Link>
+    </Content>
+    <Content Include="AxClass\SIMSStartSqlExecuteRequestContract">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSqlExecuteRequestContract</Name>
+      <Link>Classes\SIMSStartSqlExecuteRequestContract</Link>
+    </Content>
+    <Content Include="AxClass\SIMSStartSqlExecuteResponseContract">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSqlExecuteResponseContract</Name>
+      <Link>Classes\SIMSStartSqlExecuteResponseContract</Link>
+    </Content>
+    <Content Include="AxClass\SIMSStartSqlExecutionService">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSqlExecutionService</Name>
+      <Link>Classes\SIMSStartSqlExecutionService</Link>
+    </Content>
+    <Content Include="AxClass\SIMSStartSqlExecutionValidator">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSqlExecutionValidator</Name>
+      <Link>Classes\SIMSStartSqlExecutionValidator</Link>
+    </Content>
+    <Content Include="AxClass\SIMSStartSqlRunner">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSqlRunner</Name>
+      <Link>Classes\SIMSStartSqlRunner</Link>
     </Content>
     <Content Include="AxEnum\SIMSStartTaskType">
       <SubType>Content</SubType>
@@ -167,10 +199,25 @@
       <Name>SIMSStartProcessingUser</Name>
       <Link>Security Roles\SIMSStartProcessingUser</Link>
     </Content>
+    <Content Include="AxServiceGroup\SIMSStartProcessingServices">
+      <SubType>Content</SubType>
+      <Name>SIMSStartProcessingServices</Name>
+      <Link>Service Groups\SIMSStartProcessingServices</Link>
+    </Content>
+    <Content Include="AxService\SIMSStartSqlExecutionService">
+      <SubType>Content</SubType>
+      <Name>SIMSStartSqlExecutionService</Name>
+      <Link>Services\SIMSStartSqlExecutionService</Link>
+    </Content>
     <Content Include="AxTable\SIMSStartLog">
       <SubType>Content</SubType>
       <Name>SIMSStartLog</Name>
       <Link>Tables\SIMSStartLog</Link>
+    </Content>
+    <Content Include="AxTable\SIMSStartParameters">
+      <SubType>Content</SubType>
+      <Name>SIMSStartParameters</Name>
+      <Link>Tables\SIMSStartParameters</Link>
     </Content>
     <Content Include="AxTable\SIMSStartSubAdmins">
       <SubType>Content</SubType>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEnum xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartHttpRequestMethod</Name>
+	<Label>@SIMSStartProcessing:RestHttpMethod</Label>
+	<UseEnumValue>No</UseEnumValue>
+	<EnumValues>
+		<AxEnumValue>
+			<Name>Get</Name>
+			<Label>@SIMSStartProcessing:RestMethodGet</Label>
+		</AxEnumValue>
+		<AxEnumValue>
+			<Name>Post</Name>
+			<Label>@SIMSStartProcessing:RestMethodPost</Label>
+			<Value>1</Value>
+		</AxEnumValue>
+		<AxEnumValue>
+			<Name>Put</Name>
+			<Label>@SIMSStartProcessing:RestMethodPut</Label>
+			<Value>2</Value>
+		</AxEnumValue>
+		<AxEnumValue>
+			<Name>Patch</Name>
+			<Label>@SIMSStartProcessing:RestMethodPatch</Label>
+			<Value>3</Value>
+		</AxEnumValue>
+		<AxEnumValue>
+			<Name>Delete</Name>
+			<Label>@SIMSStartProcessing:RestMethodDelete</Label>
+			<Value>4</Value>
+		</AxEnumValue>
+	</EnumValues>
+</AxEnum>

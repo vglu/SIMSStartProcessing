@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartSqlExecutionService</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Inbound JSON custom service: executes catalog or ad-hoc SQL and returns a structured result for orchestration (e.g. Logic Apps).
+/// </summary>
+public class SIMSStartSqlExecutionService
+{
+    #define.SqlAdhocPreviewLen(200)
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>executeSql</Name>
+				<Source><![CDATA[
+    [SysEntryPointAttribute(false),
+     AifCollectionTypeAttribute('return', Types::Class, classStr(SIMSStartSqlExecuteResponseContract))]
+    public List executeSql(SIMSStartSqlExecuteRequestContract _request)
+    {
+        List responses = new List(Types::Class);
+        SIMSStartSqlExecuteResponseContract response = new SIMSStartSqlExecuteResponseContract();
+        boolean usedAdHocSql = false;
+
+        response.parmCorrelationId(_request.parmCorrelationId());
+        response.parmRowsAffected(0);
+        response.parmSuccess(false);
+
+        SIMSStartParameters serviceParameters = SIMSStartParameters::find();
+
+        if (!serviceParameters.RecId)
+        {
+            response.parmMessage("@SIMSStartProcessing:SqlExecServiceConfigureParams");
+            responses.addEnd(response);
+            SIMSStartSqlExecutionService::logCall(_request, response, '');
+            return responses;
+        }
+
+        str envErr = SIMSStartSqlExecutionValidator::validateEnvironmentMessage(serviceParameters);
+
+        if (strLen(envErr))
+        {
+            response.parmMessage(envErr);
+            responses.addEnd(response);
+            SIMSStartSqlExecutionService::logCall(_request, response, '');
+            return responses;
+        }
+
+        str sqlToRun;
+
+        if (_request.parmLineRecId())
+        {
+            SIMSStartTable catalogLine = SIMSStartTable::find(_request.parmLineRecId());
+            str lineErr = SIMSStartSqlExecutionValidator::validateCatalogLine(catalogLine);
+
+            if (strLen(lineErr))
+            {
+                response.parmMessage(lineErr);
+                responses.addEnd(response);
+                SIMSStartSqlExecutionService::logCall(_request, response, '');
+                return responses;
+            }
+
+            sqlToRun = catalogLine.SQL;
+        }
+        else if (serviceParameters.AllowAdHocSqlFromService == NoYes::Yes && strLen(strLRTrim(_request.parmSqlScript())))
+        {
+            sqlToRun = _request.parmSqlScript();
+            usedAdHocSql = true;
+        }
+        else
+        {
+            response.parmMessage("@SIMSStartProcessing:SqlExecServiceMissingInput");
+            responses.addEnd(response);
+            SIMSStartSqlExecutionService::logCall(_request, response, '');
+            return responses;
+        }
+
+        try
+        {
+            int rows = SIMSStartSqlRunner::executeNonQuery(sqlToRun);
+
+            response.parmSuccess(true);
+            response.parmRowsAffected(rows);
+            response.parmMessage(strFmt("@SIMSStartProcessing:SqlExecServiceOk", rows));
+        }
+        catch
+        {
+            response.parmSuccess(false);
+            response.parmMessage("@SIMSStartProcessing:SqlExecServiceSqlFailed");
+        }
+
+        responses.addEnd(response);
+        SIMSStartSqlExecutionService::logCall(_request, response, usedAdHocSql ? SIMSStartSqlExecutionService::sqlAdhocPreview(_request.parmSqlScript()) : '');
+        return responses;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>logCall</Name>
+				<Source><![CDATA[
+    private static void logCall(SIMSStartSqlExecuteRequestContract _request, SIMSStartSqlExecuteResponseContract _response, str _adhocSqlPreview)
+    {
+        str okStr = _response.parmSuccess() ? 'true' : 'false';
+        str details = _response.parmMessage();
+
+        if (strLen(_adhocSqlPreview))
+        {
+            details = strFmt("@SIMSStartProcessing:SqlExecServiceLogAdHocSuffix", details, _adhocSqlPreview);
+        }
+
+        SIMSStartLog::addLog(strFmt("@SIMSStartProcessing:SqlExecServiceLog",
+            _request.parmCorrelationId(),
+            okStr,
+            details));
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>sqlAdhocPreview</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// First <c>#SqlAdhocPreviewLen</c> characters of the script for audit (newlines collapsed to spaces).
+    /// </summary>
+    private static str sqlAdhocPreview(str _sql)
+    {
+        str collapsed = SIMSStartSqlExecutionService::collapseSqlWhitespace(strLRTrim(_sql));
+
+        if (!strLen(collapsed))
+        {
+            return '';
+        }
+
+        if (strLen(collapsed) > #SqlAdhocPreviewLen)
+        {
+            return subStr(collapsed, 1, #SqlAdhocPreviewLen) + '...';
+        }
+
+        return collapsed;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>collapseSqlWhitespace</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Replaces line breaks with spaces for a single-line audit snippet (all occurrences).
+    /// </summary>
+    private static str collapseSqlWhitespace(str _sql)
+    {
+        str s = _sql;
+        int guard;
+        int pos;
+
+        if (!strLen(s))
+        {
+            return '';
+        }
+
+        for (guard = 0; guard < 4096; guard++)
+        {
+            pos = strFind(s, '\r\n', 1, strLen(s));
+            if (!pos)
+            {
+                break;
+            }
+
+            s = subStr(s, 1, pos - 1) + ' ' + subStr(s, pos + 2, strLen(s) - pos - 1);
+        }
+
+        for (guard = 0; guard < 4096; guard++)
+        {
+            pos = strFind(s, '\n', 1, strLen(s));
+            if (!pos)
+            {
+                break;
+            }
+
+            s = subStr(s, 1, pos - 1) + ' ' + subStr(s, pos + 1, strLen(s) - pos);
+        }
+
+        for (guard = 0; guard < 4096; guard++)
+        {
+            pos = strFind(s, '\r', 1, strLen(s));
+            if (!pos)
+            {
+                break;
+            }
+
+            s = subStr(s, 1, pos - 1) + ' ' + subStr(s, pos + 1, strLen(s) - pos);
+        }
+
+        return strLRTrim(s);
+    }
+
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

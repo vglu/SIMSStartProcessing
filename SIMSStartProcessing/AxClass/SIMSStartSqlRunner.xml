@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartSqlRunner</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// Shared non-query SQL execution with <c>SqlStatementExecutePermission</c>.
+/// </summary>
+public final class SIMSStartSqlRunner
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>executeNonQuery</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Executes a DDL/DML script and returns affected rows.
+    /// </summary>
+    /// <exception cref="Exception">Propagates database or permission failures.</exception>
+    public static int executeNonQuery(str _sql)
+    {
+        int                 rowsAffected;
+        Connection          connection = new Connection();
+        Statement           statement = null;
+
+        try
+        {
+            statement = connection.createStatement();
+
+            var ssep = new SqlStatementExecutePermission(_sql);
+            ssep.assert();
+            rowsAffected = statement.executeUpdateWithParameters(_sql, null);
+            CodeAccessPermission::revertAssert();
+        }
+        catch (Exception::CLRError)
+        {
+            System.Exception clrEx = CLRInterop::getLastException();
+
+            if (clrEx != null)
+            {
+                throw error(clrEx.get_Message());
+            }
+
+            throw error("SQL execution failed.");
+        }
+        finally
+        {
+            if (statement != null)
+            {
+                statement.close();
+            }
+            connection.finalize();
+        }
+
+        return rowsAffected;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

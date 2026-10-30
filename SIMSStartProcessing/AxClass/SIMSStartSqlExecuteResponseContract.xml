@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartSqlExecuteResponseContract</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// JSON contract returned by <c>SIMSStartSqlExecutionService.executeSql</c>.
+/// </summary>
+[DataContractAttribute]
+public class SIMSStartSqlExecuteResponseContract
+{
+    boolean success;
+    str     message;
+    int     rowsAffected;
+    str     correlationId;
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>parmSuccess</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('Success')]
+    public boolean parmSuccess(boolean _success = success)
+    {
+        success = _success;
+        return success;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmMessage</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('Message')]
+    public str parmMessage(str _message = message)
+    {
+        message = _message;
+        return message;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmRowsAffected</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('RowsAffected')]
+    public int parmRowsAffected(int _rowsAffected = rowsAffected)
+    {
+        rowsAffected = _rowsAffected;
+        return rowsAffected;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>parmCorrelationId</Name>
+				<Source><![CDATA[
+    [DataMemberAttribute('CorrelationId')]
+    public str parmCorrelationId(str _correlationId = correlationId)
+    {
+        correlationId = _correlationId;
+        return correlationId;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

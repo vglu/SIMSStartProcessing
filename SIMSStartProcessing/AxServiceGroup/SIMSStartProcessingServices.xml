@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxServiceGroup xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SIMSStartProcessingServices</Name>
+	<Label>@SIMSStartProcessing:ServiceGroupLabel</Label>
+	<Services>
+		<AxServiceGroupService>
+			<Name>SIMSStartSqlExecutionSvcRef</Name>
+			<Service>SIMSStartSqlExecutionService</Service>
+		</AxServiceGroupService>
+	</Services>
+</AxServiceGroup>
